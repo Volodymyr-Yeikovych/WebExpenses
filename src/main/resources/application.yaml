@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: info
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
