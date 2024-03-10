@@ -4,4 +4,13 @@ logging:
 spring:
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    generate-unique-name: false
+    name: "web-expenses-db"
+
