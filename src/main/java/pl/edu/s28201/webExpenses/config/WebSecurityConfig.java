@@ -6,46 +6,43 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import pl.edu.s28201.webExpenses.model.AppUser;
-import pl.edu.s28201.webExpenses.service.PasswordEncoderService;
 
 @Configuration
 @EnableWebSecurity
 @Slf4j
 public class WebSecurityConfig {
 
-    private PasswordEncoderService passwordService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public WebSecurityConfig(PasswordEncoderService service) {
-        passwordService = service;
+    public WebSecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**").permitAll();
-                    auth.requestMatchers("/", "/landing").permitAll().anyRequest().authenticated();
-                })
-                .formLogin(form -> form.loginPage("/login").permitAll())
-                .logout(LogoutConfigurer::permitAll);
+        http
+                .userDetailsService(userDetailsService)
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**").permitAll()
+                                .requestMatchers("/", "/landing", "/login**", "/error/**", "/callback/").permitAll()
+                                .anyRequest().authenticated())
+                .logout(LogoutConfigurer::permitAll)
+                .formLogin(form -> form.loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .failureUrl("/login?error"));
+
         return http.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUserDetails(new AppUser("email1@example.com", "John", "Doe", passwordService.encode("password1"))).build();
-
-        log.info(user.getPassword());
-
-        return new InMemoryUserDetailsManager(user);
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
     }
+
 }

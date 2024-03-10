@@ -14,4 +14,6 @@ public interface AppUserRepository extends CrudRepository<AppUser, UUID> {
     Optional<AppUser> findById(UUID uuid);
 
     List<AppUser> findByLastName(String lastName);
+
+    List<AppUser> findAll();
 }
