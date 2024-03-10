@@ -63,22 +63,84 @@
             width: 100%;
         }
 
+        .item {
+
+        }
+
         .item-container {
+            /*background-color: #333;*/
+            /*padding: 0px;*/
+            /*border-radius: 8px;*/
+            /*font-size: 14px;*/
+            /*margin-bottom: 10px;*/
+            /*display: flex;*/
+            /*box-sizing: border-box;*/
             background-color: #333;
-            padding: 10px;
+            padding: 0;
             border-radius: 8px;
             font-size: 14px;
             margin-bottom: 10px;
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 3% 6% 3% 9% 3% 9% 3% 9% 3% 9%;
+            align-items: center;
             box-sizing: border-box;
         }
 
-        .dot-separator, .date, .amount, .currency, .category, .shop, .desc {
-            margin-right: 10px;
-            margin-left: 10px;
-            vertical-align: center;
+        .dot-separator {
+            width: 8px;
+            height: 8px;
+            background-color: #ff6600; /* Dot separator color */
+            border-radius: 50%; /* Make it a circle */
+            margin: 12px 10px 10px 20px;
         }
+
+        .line-separator {
+            margin: 15px;
+            font-size: 20px;
+            box-sizing: border-box;
+        }
+
+        .date {
+            grid-column: 2 / span 1;
+            font-weight: bold;
+        }
+
+        .amount {
+            grid-column: 4 / span 1;
+            grid-row: 1 / span 1;
+        }
+
+        .category {
+            grid-column: 6 / span 1;
+            margin: 0;
+        }
+
+        .shop {
+            grid-column: 8 / span 1;
+            margin: 0;
+        }
+
+        .desc {
+            grid-column: 10 / span 1;
+            margin: 0;
+        }
+
+        .date, .category, .shop, .desc {
+            color: #fff;
+        }
+
+        .amount {
+            font-style: italic;
+        }
+
+        .category, .shop {
+            font-size: 14px;
+        }
+
+        .desc {
+            opacity: 0.8;
+        }
+
     </style>
 </head>
 <body>
@@ -95,30 +157,60 @@
         </div>
     </div>
     <ul class="item-list">
-        <li>
+        <li class="item">
             <div class="item-container">
                 <p class="dot-separator"></p>
                 <p class="date">2024-03-03</p>
-                <p class="amount">2023.21/1</p>
-                <p class="currency">$</p>
+                <p class="line-separator">|</p>
+                <p class="amount">256.20 $</p>
+                <p class="line-separator">|</p>
                 <p class="category">Groceries</p>
+                <p class="line-separator">|</p>
                 <p class="shop">Lidl</p>
+                <p class="line-separator">|</p>
                 <p class="desc">A thorough description of item 1</p>
             </div>
         </li>
-        <li>
+        <li class="item">
             <div class="item-container">
-                <p>Im Item 2!!</p>
+                <p class="dot-separator"></p>
+                <p class="date">2024-03-04</p>
+                <p class="line-separator">|</p>
+                <p class="amount">325.56 $</p>
+                <p class="line-separator">|</p>
+                <p class="category">Guns</p>
+                <p class="line-separator">|</p>
+                <p class="shop">Gun Shop</p>
+                <p class="line-separator">|</p>
+                <p class="desc">A thorough description of item 2</p>
             </div>
         </li>
-        <li>
+        <li class="item">
             <div class="item-container">
-                <p>Im Item 3!!</p>
+                <p class="dot-separator"></p>
+                <p class="date">2024-03-05</p>
+                <p class="line-separator">|</p>
+                <p class="amount">6.20 $</p>
+                <p class="line-separator">|</p>
+                <p class="category">Groceries</p>
+                <p class="line-separator">|</p>
+                <p class="shop">Biedronka</p>
+                <p class="line-separator">|</p>
+                <p class="desc">A thorough description of item 3</p>
             </div>
         </li>
-        <li>
+        <li class="item">
             <div class="item-container">
-                <p>Im Item 4!!</p>
+                <p class="dot-separator"></p>
+                <p class="date">2024-03-06</p>
+                <p class="line-separator">|</p>
+                <p class="amount">5,569,012.20 $</p>
+                <p class="line-separator">|</p>
+                <p class="category">Army</p>
+                <p class="line-separator">|</p>
+                <p class="shop">Government</p>
+                <p class="line-separator">|</p>
+                <p class="desc">A thorough description of item 4</p>
             </div>
         </li>
     </ul>
