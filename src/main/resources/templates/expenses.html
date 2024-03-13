@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -157,62 +157,62 @@
         </div>
     </div>
     <ul class="item-list">
-        <li class="item">
+        <li class="item" th:each="expense : ${expenses}">
             <div class="item-container">
                 <p class="dot-separator"></p>
-                <p class="date">2024-03-03</p>
+                <p class="date" th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatExpenseDate(expense.timeMade)}"></p>
                 <p class="line-separator">|</p>
-                <p class="amount">256.20 $</p>
+                <p class="amount" th:text="${expense.moneySpent.toString()} + ' ' + ${expense.currency.toString()}"></p>
                 <p class="line-separator">|</p>
-                <p class="category">Groceries</p>
+                <p class="category" th:text="${expense.category.getName()}"></p>
                 <p class="line-separator">|</p>
-                <p class="shop">Lidl</p>
+                <p class="shop" th:text="${expense.origin.getName()}"></p>
                 <p class="line-separator">|</p>
-                <p class="desc">A thorough description of item 1</p>
+                <p class="desc" th:text="${expense.description}"></p>
             </div>
         </li>
-        <li class="item">
-            <div class="item-container">
-                <p class="dot-separator"></p>
-                <p class="date">2024-03-04</p>
-                <p class="line-separator">|</p>
-                <p class="amount">325.56 $</p>
-                <p class="line-separator">|</p>
-                <p class="category">Guns</p>
-                <p class="line-separator">|</p>
-                <p class="shop">Gun Shop</p>
-                <p class="line-separator">|</p>
-                <p class="desc">A thorough description of item 2</p>
-            </div>
-        </li>
-        <li class="item">
-            <div class="item-container">
-                <p class="dot-separator"></p>
-                <p class="date">2024-03-05</p>
-                <p class="line-separator">|</p>
-                <p class="amount">6.20 $</p>
-                <p class="line-separator">|</p>
-                <p class="category">Groceries</p>
-                <p class="line-separator">|</p>
-                <p class="shop">Biedronka</p>
-                <p class="line-separator">|</p>
-                <p class="desc">A thorough description of item 3</p>
-            </div>
-        </li>
-        <li class="item">
-            <div class="item-container">
-                <p class="dot-separator"></p>
-                <p class="date">2024-03-06</p>
-                <p class="line-separator">|</p>
-                <p class="amount">5,569,012.20 $</p>
-                <p class="line-separator">|</p>
-                <p class="category">Army</p>
-                <p class="line-separator">|</p>
-                <p class="shop">Government</p>
-                <p class="line-separator">|</p>
-                <p class="desc">A thorough description of item 4</p>
-            </div>
-        </li>
+<!--        <li class="item">-->
+<!--            <div class="item-container">-->
+<!--                <p class="dot-separator"></p>-->
+<!--                <p class="date">2024-03-04</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="amount">325.56 $</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="category">Guns</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="shop">Gun Shop</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="desc">A thorough description of item 2</p>-->
+<!--            </div>-->
+<!--        </li>-->
+<!--        <li class="item">-->
+<!--            <div class="item-container">-->
+<!--                <p class="dot-separator"></p>-->
+<!--                <p class="date">2024-03-05</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="amount">6.20 $</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="category">Groceries</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="shop">Biedronka</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="desc">A thorough description of item 3</p>-->
+<!--            </div>-->
+<!--        </li>-->
+<!--        <li class="item">-->
+<!--            <div class="item-container">-->
+<!--                <p class="dot-separator"></p>-->
+<!--                <p class="date">2024-03-06</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="amount">5,569,012.20 $</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="category">Army</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="shop">Government</p>-->
+<!--                <p class="line-separator">|</p>-->
+<!--                <p class="desc">A thorough description of item 4</p>-->
+<!--            </div>-->
+<!--        </li>-->
     </ul>
 </div>
 </body>
