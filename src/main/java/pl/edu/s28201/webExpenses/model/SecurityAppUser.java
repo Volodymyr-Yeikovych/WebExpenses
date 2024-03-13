@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SecurityAppUser implements UserDetails {
 
-    private AppUser user;
+    private final AppUser user;
 
     public SecurityAppUser(AppUser user) {
         this.user = user;
