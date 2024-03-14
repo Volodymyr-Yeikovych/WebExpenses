@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Expense</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin: 50px auto;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #888;
+            background-color: #333;
+            color: #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: #ff6600;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ffae42;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ffae42;
+        }
+
+        select {
+            background-color: #333;
+            color: #bbb;
+        }
+
+        option {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Create New Expense</h1>
+    <form method="post" th:action="@{/expenses/new}">
+        <div class="form-group">
+            <label for="timeMade">Time Made (YYYY-MM-DD):</label>
+            <input type="text" id="timeMade" name="timeMade" placeholder="Enter time in YYYY-MM-DD format" required>
+        </div>
+        <div class="form-group">
+            <label for="moneySpent">Money Spent (xx.xx):</label>
+            <input type="text" id="moneySpent" name="moneySpent" placeholder="Enter amount with 2 digits after dot"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="currency">Currency:</label>
+            <select id="currency" name="currency" required>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="category">Expense Category:</label>
+            <select id="category" name="category" required>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="origin">Expense Origin:</label>
+            <select id="origin" name="origin" required>
+                <option value="Online">Online</option>
+                <option value="Store">Store</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" placeholder="Enter expense description">
+        </div>
+        <input type="submit" value="Create Expense">
+    </form>
+</div>
+</body>
+</html>
