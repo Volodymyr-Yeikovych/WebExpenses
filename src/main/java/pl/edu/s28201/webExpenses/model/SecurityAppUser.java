@@ -1,5 +1,6 @@
 package pl.edu.s28201.webExpenses.model;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public class SecurityAppUser implements UserDetails {
 
+    @Getter
     private final AppUser user;
 
     public SecurityAppUser(AppUser user) {
