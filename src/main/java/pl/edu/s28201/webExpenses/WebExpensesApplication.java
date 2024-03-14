@@ -36,7 +36,6 @@ public class WebExpensesApplication {
 
     @Bean
     public CommandLineRunner demo(AppUserRepository userRepository,
-//                                  UserExpenseRepository userExpenseRepository,
                                   ExpenseRepository expenseRepository,
                                   ExpenseCategoryRepository categoryRepository,
                                   ExpenseOriginRepository originRepository) {
@@ -102,7 +101,6 @@ public class WebExpensesApplication {
 
         for (AppUser user : users) {
             log.info(user.toString());
-
             mockExpenses(user, expenseRepository, categoryRepository, originRepository);
         }
     }
@@ -127,7 +125,7 @@ public class WebExpensesApplication {
         List<String> descriptions = new ArrayList<>();
 
         for (int i = 1; i <= MOCK_NUMBER; i++) {
-            String desc = "Long and informative Description_" + i;
+            String desc = "Long and informative informative informative informative informative informative informative informative informative informative informative informative  informative informative informative Description_" + i;
             descriptions.add(desc);
         }
 
