@@ -14,7 +14,7 @@ import java.util.Locale;
 public class LocalDateTimeFormatter implements Formatter<LocalDateTime> {
     @Override
     @NonNull
-    public LocalDateTime parse(@NonNull String text, @NonNull Locale locale) throws ParseException {
+    public LocalDateTime parse(@NonNull String text, @NonNull Locale locale) {
         LocalDate parsedTimeMade = LocalDate.parse(text);
         return parsedTimeMade.atTime(LocalTime.now());
     }

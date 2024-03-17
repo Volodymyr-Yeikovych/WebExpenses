@@ -1,19 +1,14 @@
 package pl.edu.s28201.webExpenses;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.edu.s28201.webExpenses.model.*;
 import pl.edu.s28201.webExpenses.repository.*;
 import pl.edu.s28201.webExpenses.service.MockService;
-
-import java.util.*;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @Slf4j
