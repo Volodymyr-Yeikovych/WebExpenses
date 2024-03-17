@@ -43,7 +43,7 @@ public class JpaConfig {
         factory.setDataSource(dataSource());
 
         Properties jpaProperties = new Properties();
-        jpaProperties.put("hibernate.hbm2ddl.auto", "create");
+        jpaProperties.put("hibernate.hbm2ddl.auto", "validate");
         factory.setJpaProperties(jpaProperties);
 
         return factory;
