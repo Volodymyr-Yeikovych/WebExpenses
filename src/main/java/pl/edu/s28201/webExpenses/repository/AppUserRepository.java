@@ -1,6 +1,7 @@
 package pl.edu.s28201.webExpenses.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import pl.edu.s28201.webExpenses.model.AppUser;
 
@@ -13,5 +14,8 @@ public interface AppUserRepository extends CrudRepository<AppUser, UUID> {
     Optional<AppUser> findByEmail(String email);
 
     List<AppUser> findByLastName(String lastName);
+
+    @NonNull
+    List<AppUser> findAll();
 
 }
