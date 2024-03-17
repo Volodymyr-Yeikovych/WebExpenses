@@ -70,8 +70,8 @@
     <h1>Create New Expense</h1>
     <form method="post" th:action="@{/expenses/new}" th:object="${expense}">
         <div class="form-group">
-            <label for="timeMade">Time Made (YYYY-MM-DD):</label>
-            <input type="text" id="timeMade" name="timeMade" th:field="*{timeMade}" placeholder="Enter time in YYYY-MM-DD format" required>
+            <label for="timeMade">Time Made:</label>
+            <input type="date" id="timeMade" name="timeMade" placeholder="Enter time in YYYY-MM-DD format" required>
         </div>
         <div class="form-group">
             <label for="moneySpent">Money Spent (xx.xx):</label>
@@ -80,25 +80,20 @@
         </div>
         <div class="form-group">
             <label for="currency">Currency:</label>
-            <select id="currency" name="currency" th:field="*{currency}" required>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
+            <select id="currency" name="currency" required>
+                <option th:each="currency : ${currencies.entrySet()}" th:value="${currency.key}" th:text="${currency.value}"></option>
             </select>
         </div>
         <div class="form-group">
             <label for="category">Expense Category:</label>
-            <select id="category" name="category" th:field="*{category}" required>
-                <option value="Category_1">Category_1</option>
-                <option value="Food">Food</option>
-                <option value="Transport">Transport</option>
+            <select id="category" name="category" required>
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
             </select>
         </div>
         <div class="form-group">
             <label for="origin">Expense Origin:</label>
-            <select id="origin" name="origin" th:field="*{origin}" required>
-                <option value="Origin_1">Origin_1</option>
-                <option value="Online">Online</option>
-                <option value="Store">Store</option>
+            <select id="origin" name="origin" required>
+                <option th:each="origin : ${origins}" th:value="${origin.id}" th:text="${origin.name}"></option>
             </select>
         </div>
         <div class="form-group">
