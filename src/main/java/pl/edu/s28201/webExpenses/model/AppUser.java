@@ -24,7 +24,7 @@ public class AppUser {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "user_id", updatable = false, nullable = false)
+    @Column(name = "userId", updatable = false, nullable = false)
     private UUID userId;
     @Column(unique = true)
     private String email;
@@ -33,6 +33,14 @@ public class AppUser {
     private String password;
 
     public AppUser(String email, String firstName, String lastName, String password) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
+
+    public AppUser(UUID userId, String email, String firstName, String lastName, String password) {
+        this.userId = userId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

@@ -8,15 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
 public interface AppUserRepository extends CrudRepository<AppUser, UUID> {
 
     Optional<AppUser> findByEmail(String email);
 
-    Optional<AppUser> findById(UUID uuid);
-
     List<AppUser> findByLastName(String lastName);
-
-    List<AppUser> findAll();
 
 }

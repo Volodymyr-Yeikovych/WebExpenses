@@ -6,6 +6,5 @@ import pl.edu.s28201.webExpenses.model.ExpenseOrigin;
 
 import java.util.UUID;
 
-@Repository
 public interface ExpenseOriginRepository extends CrudRepository<ExpenseOrigin, UUID> {
 }

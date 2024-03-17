@@ -68,40 +68,42 @@
 <body>
 <div class="container">
     <h1>Create New Expense</h1>
-    <form method="post" th:action="@{/expenses/new}">
+    <form method="post" th:action="@{/expenses/new}" th:object="${expense}">
         <div class="form-group">
             <label for="timeMade">Time Made (YYYY-MM-DD):</label>
-            <input type="text" id="timeMade" name="timeMade" placeholder="Enter time in YYYY-MM-DD format" required>
+            <input type="text" id="timeMade" name="timeMade" th:field="*{timeMade}" placeholder="Enter time in YYYY-MM-DD format" required>
         </div>
         <div class="form-group">
             <label for="moneySpent">Money Spent (xx.xx):</label>
-            <input type="text" id="moneySpent" name="moneySpent" placeholder="Enter amount with 2 digits after dot"
+            <input type="text" id="moneySpent" name="moneySpent" th:field="*{moneySpent}" placeholder="Enter amount with 2 digits after dot"
                    required>
         </div>
         <div class="form-group">
             <label for="currency">Currency:</label>
-            <select id="currency" name="currency" required>
+            <select id="currency" name="currency" th:field="*{currency}" required>
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
             </select>
         </div>
         <div class="form-group">
             <label for="category">Expense Category:</label>
-            <select id="category" name="category" required>
+            <select id="category" name="category" th:field="*{category}" required>
+                <option value="Category_1">Category_1</option>
                 <option value="Food">Food</option>
                 <option value="Transport">Transport</option>
             </select>
         </div>
         <div class="form-group">
             <label for="origin">Expense Origin:</label>
-            <select id="origin" name="origin" required>
+            <select id="origin" name="origin" th:field="*{origin}" required>
+                <option value="Origin_1">Origin_1</option>
                 <option value="Online">Online</option>
                 <option value="Store">Store</option>
             </select>
         </div>
         <div class="form-group">
             <label for="description">Description:</label>
-            <input type="text" id="description" name="description" placeholder="Enter expense description">
+            <input type="text" id="description" name="description" th:field="*{description}" placeholder="Enter expense description">
         </div>
         <input type="submit" value="Create Expense">
     </form>

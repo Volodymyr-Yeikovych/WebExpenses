@@ -6,6 +6,5 @@ import pl.edu.s28201.webExpenses.model.ExpenseCategory;
 
 import java.util.UUID;
 
-@Repository
 public interface ExpenseCategoryRepository extends CrudRepository<ExpenseCategory, UUID> {
 }
