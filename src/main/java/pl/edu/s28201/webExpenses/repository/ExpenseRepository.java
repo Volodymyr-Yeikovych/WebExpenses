@@ -16,4 +16,5 @@ public interface ExpenseRepository extends CrudRepository<Expense, UUID> {
     List<Expense> findAll();
 
     List<Expense> findExpensesByUser(AppUser appUser);
+
 }
