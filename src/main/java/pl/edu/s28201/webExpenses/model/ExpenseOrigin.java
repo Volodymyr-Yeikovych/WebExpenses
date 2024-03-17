@@ -1,9 +1,6 @@
 package pl.edu.s28201.webExpenses.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,9 +14,12 @@ public class ExpenseOrigin {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @ManyToOne(targetEntity = AppUser.class)
+    private AppUser user;
     private String name;
 
-    public ExpenseOrigin(String name) {
+    public ExpenseOrigin(String name, AppUser user) {
+        this.user = user;
         this.name = name;
     }
 }
