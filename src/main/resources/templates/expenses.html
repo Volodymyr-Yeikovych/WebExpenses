@@ -19,47 +19,7 @@
             box-sizing: border-box;
         }
 
-        .plus-button {
-            background-color: #ff6600;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            padding: 10px;
-            cursor: pointer;
-            position: relative;
-            margin-right: 20px;
-            z-index: 1;
-            transition: background-color 0.3s ease;
-        }
-
-        .plus-button[type="submit"]:hover {
-            background-color: #ffae42;
-        }
-
-        .plus-button-items {
-            font-size: 24px;
-            padding-left: 7px;
-            padding-right: 7px;
-        }
-
-        .options {
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .filter-button, .sort-button {
-            background-color: #555;
-            color: #fff;
-            border: none;
-            border-radius: 30px;
-            padding: 10px 20px;
-            margin-right: 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
+        /*Expenses List Styles*/
         .item-list {
             list-style-type: none;
             padding: 0;
@@ -138,19 +98,214 @@
             opacity: 0.8;
         }
 
+        /*Buttons Container Styles*/
+        .options {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        /*Buttons Styles*/
+        #plus-category, #plus-origin {
+            background-color: #ff6600;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 14px;
+            cursor: pointer;
+            margin-right: 20px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-button, .sort-button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin-right: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .plus-button {
+            background-color: #ff6600;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            position: relative;
+            margin-right: 20px;
+            z-index: 1;
+            transition: background-color 0.3s ease;
+        }
+
+        .plus-button[type="submit"]:hover {
+            background-color: #ffae42;
+        }
+
+        .plus-button-items {
+            font-size: 24px;
+            padding-left: 7px;
+            padding-right: 7px;
+            font-weight: bold;
+        }
+
+        #plus-category-items, #plus-origin-items {
+            font-size: 16px;
+            padding-top: 3px;
+            font-weight: bold;
+        }
+
+        /*Tooltips Styles*/
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: max-content;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            top: 60px;
+            left: 120px;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /*    Interactive Dialogs Styles */
+        /*.dialog {*/
+        /*    display: none;*/
+        /*    position: fixed;*/
+        /*    top: 50%;*/
+        /*    left: 50%;*/
+        /*    transform: translate(-50%, -50%);*/
+        /*    background-color: #fff;*/
+        /*    padding: 20px;*/
+        /*    border-radius: 8px;*/
+        /*    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+        /*}*/
+
+        /*.overlay {*/
+        /*    position: fixed;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    background-color: rgba(0, 0, 0, 0.5);*/
+        /*    z-index: 999;*/
+        /*    display: none;*/
+        /*}*/
+
+        .dialog, #dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #444;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .dialog h2 {
+            color: #ddd; /* Dialog title color */
+            margin-bottom: 15px;
+        }
+
+        .dialog label {
+            color: #ddd; /* Label color */
+        }
+
+        .dialog input[type="text"] {
+            width: 94%;
+            padding: 8px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+            background-color: #888;
+            /*border: 1px solid #1a1a1a;*/
+            border-radius: 4px;
+            /*pointer-events: all;*/
+
+        }
+
+        .dialog input:focus {
+            border: none;
+            outline: none;
+        }
+
+        #category::placeholder {
+            color: #ddd;
+        }
+
+        .dialog button[type="submit"] {
+            background-color: #ff6600;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .overlay, #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            display: none;
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
     <div class="tool-bar">
         <div class="options">
-            <a th:href="@{/expenses/new}">
-                <button class="plus-button">
-                    <div class="plus-button-items">
-                        +
+            <div class="tooltip">
+                <button id="plus-category" onclick="openAddExpenseCategoryDialog()">
+                    <div id="plus-category-items">
+                        Add Expense Category
                     </div>
                 </button>
-            </a>
+                <span class="tooltip-text">Click to add a new expense category</span>
+            </div>
+            <div class="tooltip">
+                <button id="plus-origin">
+                    <div id="plus-origin-items">Add Expense Origin</div>
+                </button>
+                <span class="tooltip-text">Click to add a new expense origin</span>
+            </div>
+            <div class="tooltip">
+                <a th:href="@{/expenses/new}">
+                    <button class="plus-button">
+                        <div class="plus-button-items">
+                            +
+                        </div>
+                    </button>
+                </a>
+                <span class="tooltip-text">Click to add a new expense</span>
+            </div>
             <button class="filter-button">Filter</button>
             <button class="sort-button">Sort</button>
         </div>
@@ -174,5 +329,73 @@
         </li>
     </ul>
 </div>
+
+<div id="overlay" class="overlay"></div>
+
+<div id="dialog" class="dialog">
+    <h2>Add Expense Category</h2>
+    <form id="categoryForm" method="POST" th:object="${expenseCategory}" th:action="@{/exenses/new-cat}">
+        <label for="category">Category Name:</label>
+        <input type="text" id="category" name="category" th:field="*{name}" tabindex="0" placeholder="Enter category name you wish to create">
+        <button type="submit" id="add-cat-button">Add Category</button>
+    </form>
+</div>
+
+
+<script>
+    // Function to open dialog and overlay
+    function openAddExpenseCategoryDialog() {
+        var dialog = document.getElementById("dialog");
+        var overlay = document.getElementById("overlay");
+        var textInput = document.getElementById("category");
+        textInput.removeAttribute("disabled")
+        dialog.style.display = "block";
+        overlay.style.display = "block";
+        textInput.focus();
+    }
+
+    // Close dialog when overlay is clicked
+    document.getElementById("overlay").addEventListener("click", function () {
+        var dialog = document.getElementById("dialog");
+        var overlay = document.getElementById("overlay");
+        var addButton = document.getElementById("add-cat-button");
+        var textInput = document.getElementById("category");
+        var form = document.getElementById("add-cat-button");
+        var formData = new FormData(form);
+
+        if (!isCursorHovering(dialog) || isCursorHovering(addButton)) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", form.action);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Handle success response from the controller
+                    console.log("Category added successfully");
+                    // Optionally, close the dialog and do any other actions
+                    dialog.style.display = "none";
+                    overlay.style.display = "none";
+                } else {
+                    // Handle error response from the controller
+                    console.error("Failed to add category");
+                }
+            };
+            xhr.send(formData);
+        }
+
+        textInput.focus();
+    });
+
+    function isCursorHovering(element) {
+        var rect = element.getBoundingClientRect();
+        var mouseX = event.clientX;
+        var mouseY = event.clientY;
+        return (
+            mouseX >= rect.left &&
+            mouseX <= rect.right &&
+            mouseY >= rect.top &&
+            mouseY <= rect.bottom
+        );
+    }
+
+</script>
 </body>
 </html>
