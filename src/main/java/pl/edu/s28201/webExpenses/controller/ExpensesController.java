@@ -7,8 +7,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.edu.s28201.webExpenses.model.AppUser;
+import pl.edu.s28201.webExpenses.model.Expense;
 import pl.edu.s28201.webExpenses.model.SecurityAppUser;
 import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
 
@@ -37,5 +40,24 @@ public class ExpensesController {
 
         SecurityAppUser securityAppUser = (SecurityAppUser) authentication.getPrincipal();
         return securityAppUser.getUser();
+    }
+
+    @GetMapping("/new")
+    public String displayNewExpensePage() {
+        log.info("GET: Inside displayNewExpensePage()");
+        return "newExpense";
+    }
+
+    @PostMapping("/new")
+    public String returnReadyExpense(@ModelAttribute Expense expense) {
+//    public String returnReadyExpense() {
+        log.info("POST: Inside returnReadyExpense()");
+        expenseRepository.save(expense);
+        return "redirect:/expenses";
+    }
+
+    @ModelAttribute(name = "expense")
+    public Expense getExpense(){
+        return new Expense();
     }
 }
