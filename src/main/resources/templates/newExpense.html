@@ -68,10 +68,10 @@
 <body>
 <div class="container">
     <h1>Create New Expense</h1>
-    <form method="post" th:action="@{/expenses/new}">
+    <form method="post" th:action="@{/expenses/new}" th:object="${expense}">
         <div class="form-group">
             <label for="timeMade">Time Made (YYYY-MM-DD):</label>
-            <input type="text" id="timeMade" name="timeMade" placeholder="Enter time in YYYY-MM-DD format" required>
+            <input type="text" id="timeMade" name="timeMade" placeholder="Enter time in YYYY-MM-DD format" required th:field="*{timeMade}">
         </div>
         <div class="form-group">
             <label for="moneySpent">Money Spent (xx.xx):</label>
