@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import pl.edu.s28201.webExpenses.model.AppUser;
 import pl.edu.s28201.webExpenses.model.Expense;
 import pl.edu.s28201.webExpenses.model.ExpenseCategory;
-import pl.edu.s28201.webExpenses.model.ExpenseOrigin;
+import pl.edu.s28201.webExpenses.model.ExpenseShop;
 import pl.edu.s28201.webExpenses.repository.AppUserRepository;
 import pl.edu.s28201.webExpenses.repository.ExpenseCategoryRepository;
-import pl.edu.s28201.webExpenses.repository.ExpenseOriginRepository;
+import pl.edu.s28201.webExpenses.repository.ExpenseShopRepository;
 import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
 
 import java.math.BigDecimal;
@@ -31,15 +31,15 @@ public class MockService {
     private final AppUserRepository userRepository;
     private final ExpenseRepository expenseRepository;
     private final ExpenseCategoryRepository categoryRepository;
-    private final ExpenseOriginRepository originRepository;
+    private final ExpenseShopRepository shopRepository;
     private final PasswordEncoder encoder;
 
     @Autowired
-    public MockService(AppUserRepository userRepository, ExpenseRepository expenseRepository, ExpenseCategoryRepository categoryRepository, ExpenseOriginRepository originRepository, PasswordEncoder encoder) {
+    public MockService(AppUserRepository userRepository, ExpenseRepository expenseRepository, ExpenseCategoryRepository categoryRepository, ExpenseShopRepository shopRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.expenseRepository = expenseRepository;
         this.categoryRepository = categoryRepository;
-        this.originRepository = originRepository;
+        this.shopRepository = shopRepository;
         this.encoder = encoder;
     }
 
@@ -52,7 +52,7 @@ public class MockService {
 
         for (AppUser user : users) {
             log.info(user.toString());
-            mockExpenses(user, expenseRepository, categoryRepository, originRepository);
+            mockExpenses(user, expenseRepository, categoryRepository, shopRepository);
         }
     }
 
@@ -85,15 +85,15 @@ public class MockService {
     private void mockExpenses(AppUser user,
                               ExpenseRepository expenseRepository,
                               ExpenseCategoryRepository categoryRepository,
-                              ExpenseOriginRepository originRepository) {
+                              ExpenseShopRepository shopRepository) {
         List<BigDecimal> prices = mockPrices();
         List<ExpenseCategory> categories = mockCategories(categoryRepository, user);
-        List<ExpenseOrigin> origins = mockOrigins(originRepository, user);
+        List<ExpenseShop> shops = mockShops(shopRepository, user);
         List<String> descriptions = mockDescriptions();
 
         for (int i = 0; i < MOCK_NUMBER; i++) {
             Expense expense = new Expense(user, LocalDateTime.now(), prices.get(i),
-                    Currency.getInstance("USD"), categories.get(i), origins.get(i), descriptions.get(i));
+                    Currency.getInstance("USD"), categories.get(i), shops.get(i), descriptions.get(i));
             expenseRepository.save(expense);
         }
     }
@@ -120,16 +120,16 @@ public class MockService {
         return prices;
     }
 
-    private List<ExpenseOrigin> mockOrigins(ExpenseOriginRepository repository, AppUser user) {
-        List<ExpenseOrigin> origins = new ArrayList<>();
+    private List<ExpenseShop> mockShops(ExpenseShopRepository repository, AppUser user) {
+        List<ExpenseShop> shops = new ArrayList<>();
 
         for (int i = 1; i <= MOCK_NUMBER; i++) {
-            ExpenseOrigin origin = new ExpenseOrigin("Origin_" + i, user);
-            origins.add(origin);
-            repository.save(origin);
+            ExpenseShop shop = new ExpenseShop("Shop_" + i, user);
+            shops.add(shop);
+            repository.save(shop);
         }
 
-        return origins;
+        return shops;
     }
 
     private List<String> mockDescriptions() {
