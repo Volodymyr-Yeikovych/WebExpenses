@@ -91,9 +91,9 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="origin">Expense Origin:</label>
-            <select id="origin" name="origin" required>
-                <option th:each="origin : ${origins}" th:value="${origin.id}" th:text="${origin.name}"></option>
+            <label for="shop">Expense Shop:</label>
+            <select id="shop" name="shop" required>
+                <option th:each="shop : ${shops}" th:value="${shop.id}" th:text="${shop.name}"></option>
             </select>
         </div>
         <div class="form-group">
