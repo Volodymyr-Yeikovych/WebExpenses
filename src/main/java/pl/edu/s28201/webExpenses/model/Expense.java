@@ -31,17 +31,17 @@ public class Expense {
     private Currency currency;
     @ManyToOne(targetEntity = ExpenseCategory.class)
     private ExpenseCategory category;
-    @ManyToOne(targetEntity = ExpenseOrigin.class)
-    private ExpenseOrigin origin;
+    @ManyToOne(targetEntity = ExpenseShop.class)
+    private ExpenseShop shop;
     private String description;
 
-    public Expense(AppUser user, LocalDateTime timeMade, BigDecimal moneySpent, Currency currency, ExpenseCategory category, ExpenseOrigin origin, String description) {
+    public Expense(AppUser user, LocalDateTime timeMade, BigDecimal moneySpent, Currency currency, ExpenseCategory category, ExpenseShop shop, String description) {
         this.user = user;
         this.timeMade = timeMade;
         this.moneySpent = moneySpent;
         this.currency = currency;
         this.category = category;
-        this.origin = origin;
+        this.shop = shop;
         this.description = description;
     }
 }
