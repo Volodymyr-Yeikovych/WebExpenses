@@ -38,7 +38,7 @@ public class NewShopController {
         shop.setName(name);
         shop.setUser(securityService.getUserFromSecurity());
 
-//        shopRepository.save(shop);
+        shopRepository.save(shop);
 
         return "redirect:/expenses";
     }
