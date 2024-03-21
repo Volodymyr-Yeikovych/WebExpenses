@@ -13,6 +13,7 @@ import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
 import pl.edu.s28201.webExpenses.service.SecurityService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Optional;
 
@@ -41,8 +42,19 @@ public class ExpensesController {
     public String displayExpensePage(Model model) {
         log.info("GET: Inside displayExpensePage()");
         AppUser currentUser = securityService.getUserFromSecurity();
-        model.addAttribute("expenses", expenseRepository.findExpensesByUser(currentUser));
+//        model.addAttribute("expenses", expenseRepository.findExpensesByUser(currentUser));
+        ExpenseDto dto = new ExpenseDto();
+        dto.addAll(expenseRepository.findExpensesByUser(currentUser));
+
+        model.addAttribute("expensesDto", dto);
         return "expenses";
+    }
+
+    @PostMapping
+    public String returnExpensesPage(@RequestParam("selectedExpenses") String selectedExpensesIds) {
+        log.info("POST: Inside returnExpensesPage()");
+        log.info(selectedExpensesIds);
+        return "redirect:/expenses";
     }
 
     @GetMapping("/new")
