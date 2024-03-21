@@ -68,7 +68,7 @@
 
 <div class="container">
     <h1>Create New Expense Shop</h1>
-    <p>Create custom shop to later add it to new expense. E.g. Household, Electronics, Groceries, Clothing etc.</p>
+    <p>Create custom shop to later add it to new expense. E.g. Amazon, New-Egg, Walmart, Lidl etc.</p>
     <form method="post" id="expenseForm" th:action="@{shop}" th:object="${expenseShop}">
         <label for="shopName">Expense Shop Name:</label>
         <input type="text" id="shopName" name="shopName" placeholder="Enter Shop Name" th:field="*{name}" required>
