@@ -28,9 +28,7 @@ public class WebExpensesApplication {
 
             log.info("Users found with findAll():");
             log.info("<<<------------------------------->>>");
-            userRepository.findAll().forEach(user -> {
-                log.info(user.toString());
-            });
+            userRepository.findAll().forEach(user -> log.info(user.toString()));
             log.info("<<<-------------------------------->>>");
             log.info("");
 
