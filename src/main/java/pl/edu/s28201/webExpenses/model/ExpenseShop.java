@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 @Entity
 @NoArgsConstructor
-public class ExpenseOrigin {
+public class ExpenseShop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -18,7 +18,7 @@ public class ExpenseOrigin {
     private AppUser user;
     private String name;
 
-    public ExpenseOrigin(String name, AppUser user) {
+    public ExpenseShop(String name, AppUser user) {
         this.user = user;
         this.name = name;
     }
