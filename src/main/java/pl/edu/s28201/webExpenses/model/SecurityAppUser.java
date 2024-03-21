@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 public class SecurityAppUser implements UserDetails {
 
-    @Getter
     private final AppUser user;
 
     public SecurityAppUser(AppUser user) {
