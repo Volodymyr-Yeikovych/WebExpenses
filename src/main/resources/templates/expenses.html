@@ -43,12 +43,24 @@
             box-sizing: border-box;
         }
 
+        /*.checkbox-container {*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*    align-items: center;*/
+        /*}*/
+
+        .checkbox {
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
         .dot-separator {
             width: 8px;
             height: 8px;
             background-color: #ff6600;
             border-radius: 50%;
-            margin: 12px 10px 10px 20px;
+            margin: 8px 10px 10px 20px;
         }
 
         .line-separator {
@@ -190,95 +202,10 @@
             opacity: 1;
         }
 
-        /*    Interactive Dialogs Styles */
-        /*.dialog {*/
-        /*    display: none;*/
-        /*    position: fixed;*/
-        /*    top: 50%;*/
-        /*    left: 50%;*/
-        /*    transform: translate(-50%, -50%);*/
-        /*    background-color: #fff;*/
-        /*    padding: 20px;*/
-        /*    border-radius: 8px;*/
-        /*    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
-        /*}*/
-
-        /*.overlay {*/
-        /*    position: fixed;*/
-        /*    top: 0;*/
-        /*    left: 0;*/
-        /*    width: 100%;*/
-        /*    height: 100%;*/
-        /*    background-color: rgba(0, 0, 0, 0.5);*/
-        /*    z-index: 999;*/
-        /*    display: none;*/
-        /*}*/
-
-        /*.dialog, #dialog {*/
-        /*    display: none;*/
-        /*    position: fixed;*/
-        /*    top: 50%;*/
-        /*    left: 50%;*/
-        /*    transform: translate(-50%, -50%);*/
-        /*    background-color: #444;*/
-        /*    padding: 20px;*/
-        /*    border-radius: 8px;*/
-        /*    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
-
-        /*}*/
-
-        /*.dialog h2 {*/
-        /*    color: #ddd; !* Dialog title color *!*/
-        /*    margin-bottom: 15px;*/
-        /*}*/
-
-        /*.dialog label {*/
-        /*    color: #ddd; !* Label color *!*/
-        /*}*/
-
-        /*.dialog input[type="text"] {*/
-        /*    width: 94%;*/
-        /*    padding: 8px;*/
-        /*    margin-top: 4px;*/
-        /*    margin-bottom: 10px;*/
-        /*    background-color: #888;*/
-        /*    !*border: 1px solid #1a1a1a;*!*/
-        /*    border-radius: 4px;*/
-        /*    !*pointer-events: all;*!*/
-
-        /*}*/
-
-        /*.dialog input:focus {*/
-        /*    border: none;*/
-        /*    outline: none;*/
-        /*}*/
-
-        /*#category::placeholder {*/
-        /*    color: #ddd;*/
-        /*}*/
-
-        /*.dialog button[type="submit"] {*/
-        /*    background-color: #ff6600;*/
-        /*    color: #fff;*/
-        /*    border: none;*/
-        /*    border-radius: 4px;*/
-        /*    padding: 10px 20px;*/
-        /*    cursor: pointer;*/
-        /*}*/
-
-        /*.overlay, #overlay {*/
-        /*    position: fixed;*/
-        /*    top: 0;*/
-        /*    left: 0;*/
-        /*    width: 100%;*/
-        /*    height: 100%;*/
-        /*    z-index: 999;*/
-        /*    display: none;*/
-        /*}*/
-
     </style>
 </head>
 <body>
+<form method="post" th:action="@{expenses}" th:object="${expensesDto}">
 <div class="container">
     <div class="tool-bar">
         <div class="options">
@@ -293,9 +220,11 @@
                 <span class="tooltip-text">Click to add a new expense category</span>
             </div>
             <div class="tooltip">
-                <button id="plus-shop">
-                    <div id="plus-shop-items">Add Expense Shop</div>
-                </button>
+                <a th:href="@{/shop}">
+                    <button id="plus-shop">
+                        <div id="plus-shop-items">Add Expense Shop</div>
+                    </button>
+                </a>
                 <span class="tooltip-text">Click to add a new expense shop</span>
             </div>
             <div class="tooltip">
@@ -310,94 +239,47 @@
             </div>
             <button class="filter-button">Filter</button>
             <button class="sort-button">Sort</button>
+            <button id="submitSelectedExpenses" class="sort-button" type="submit">Submit Selected Expenses</button>
         </div>
     </div>
     <ul class="item-list">
-        <li class="item" th:each="expense : ${expenses}">
+        <li class="item" th:each="expense, item : ${expensesDto.expenses}">
             <div class="item-container">
-                <p class="dot-separator"></p>
-                <p class="date"
-                   th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatExpenseDate(expense.timeMade)}"></p>
+                <div class="dot-separator">
+                    <input type="checkbox" class="checkbox" th:value="*{expenses[__${item.index}__].id}" onclick="handleCheckboxSelection(this)" name="selectedExpenses">
+                </div>
+<!--                <p class="dot-separator"></p>-->
+                <th:block th:with="rawDate=*{expenses[__${item.index}__].timeMade}">
+                    <p class="date" th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatExpenseDate(rawDate)}"></p>
+                </th:block>
                 <p class="line-separator">|</p>
-                <p class="amount"
-                   th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatMoneySpent(expense.moneySpent, expense.currency)}"></p>
+                <th:block th:with="rawAmount=*{expenses[__${item.index}__].moneySpent}, rawCurrency=*{expenses[__${item.index}__].currency}">
+                    <p class="amount" th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatMoneySpent(rawAmount, rawCurrency)}"></p>
+                </th:block>
                 <p class="line-separator">|</p>
-                <p class="category" th:text="${expense.category.getName()}"></p>
+                <p class="category" th:text="*{expenses[__${item.index}__].category.getName()}"></p>
                 <p class="line-separator">|</p>
-                <p class="shop" th:text="${expense.getShop.getName()}"></p>
+                <p class="shop" th:text="*{expenses[__${item.index}__].getShop().getName()}"></p>
                 <p class="line-separator">|</p>
-                <p class="desc" th:text="${expense.description}"></p>
+                <p class="desc" th:text="*{expenses[__${item.index}__].description}"></p>
             </div>
         </li>
     </ul>
 </div>
+</form>
 
-<!--<div id="overlay" class="overlay"></div>-->
+<input type="hidden" id="selectedExpenses" name="selectedExpenses" />
 
-<!--<div id="dialog" class="dialog">-->
-<!--    <h2>Add Expense Category</h2>-->
-<!--    <form id="categoryForm" method="POST" th:object="${expenseCategory}" th:action="@{/exenses/new-cat}">-->
-<!--        <label for="category">Category Name:</label>-->
-<!--        <input type="text" id="category" name="category" th:field="*{name}" tabindex="0" placeholder="Enter category name you wish to create">-->
-<!--        <button type="submit" id="add-cat-button">Add Category</button>-->
-<!--    </form>-->
-<!--</div>-->
-
-
-<!--<script>-->
-<!--    // Function to open dialog and overlay-->
-<!--    function openAddExpenseCategoryDialog() {-->
-<!--        var dialog = document.getElementById("dialog");-->
-<!--        var overlay = document.getElementById("overlay");-->
-<!--        var textInput = document.getElementById("category");-->
-<!--        textInput.removeAttribute("disabled")-->
-<!--        dialog.style.display = "block";-->
-<!--        overlay.style.display = "block";-->
-<!--        textInput.focus();-->
-<!--    }-->
-
-<!--    // Close dialog when overlay is clicked-->
-<!--    document.getElementById("overlay").addEventListener("click", function () {-->
-<!--        var dialog = document.getElementById("dialog");-->
-<!--        var overlay = document.getElementById("overlay");-->
-<!--        var addButton = document.getElementById("add-cat-button");-->
-<!--        var textInput = document.getElementById("category");-->
-<!--        var form = document.getElementById("add-cat-button");-->
-<!--        var formData = new FormData(form);-->
-
-<!--        if (!isCursorHovering(dialog) || isCursorHovering(addButton)) {-->
-<!--            var xhr = new XMLHttpRequest();-->
-<!--            xhr.open("POST", form.action);-->
-<!--            xhr.onload = function() {-->
-<!--                if (xhr.status === 200) {-->
-<!--                    // Handle success response from the controller-->
-<!--                    console.log("Category added successfully");-->
-<!--                    // Optionally, close the dialog and do any other actions-->
-<!--                    dialog.style.display = "none";-->
-<!--                    overlay.style.display = "none";-->
-<!--                } else {-->
-<!--                    // Handle error response from the controller-->
-<!--                    console.error("Failed to add category");-->
-<!--                }-->
-<!--            };-->
-<!--            xhr.send(formData);-->
-<!--        }-->
-
-<!--        textInput.focus();-->
-<!--    });-->
-
-<!--    function isCursorHovering(element) {-->
-<!--        var rect = element.getBoundingClientRect();-->
-<!--        var mouseX = event.clientX;-->
-<!--        var mouseY = event.clientY;-->
-<!--        return (-->
-<!--            mouseX >= rect.left &&-->
-<!--            mouseX <= rect.right &&-->
-<!--            mouseY >= rect.top &&-->
-<!--            mouseY <= rect.bottom-->
-<!--        );-->
-<!--    }-->
-
-<!--</script>-->
+<script>
+    function handleCheckboxSelection(checkbox) {
+        var selectedExpenses = document.querySelectorAll('input[name="selectedExpenses"]:checked');
+        var selectedExpensesIds = [];
+        selectedExpenses.forEach(function(checkbox) {
+            selectedExpensesIds.push(checkbox.value);
+        });
+        // Update the value of the hidden input field with the selected expense IDs
+        document.getElementById("selectedExpenses").value = selectedExpensesIds.join(',');
+    }
+</script>
 </body>
 </html>
