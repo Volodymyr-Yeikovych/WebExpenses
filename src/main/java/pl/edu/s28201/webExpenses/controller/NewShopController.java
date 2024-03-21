@@ -28,8 +28,8 @@ public class NewShopController {
     @GetMapping
     public String displayNewShop(Model model) {
         log.info("GET: Inside displayNewShop()");
-        model.addAttribute("expenseShop", new ExpenseCategory());
-        return "newCategory";
+        model.addAttribute("expenseShop", new ExpenseShop());
+        return "newShop";
     }
 
     @PostMapping
