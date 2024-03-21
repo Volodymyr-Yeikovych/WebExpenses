@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ddd;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #000;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff6600;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: #777;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 30px);
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #666;
+            margin-bottom: 20px;
+            background-color: #1a1a1a;
+            color: #ddd;
+        }
+
+        input[type="submit"] {
+            background-color: #ff6600;
+            color: #ddd;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff6600;
+
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Create New Expense Category</h1>
+    <p>Create custom category to later add it to new expense. E.g. Household, Electronics, Groceries, Clothing etc.</p>
+    <form method="post" id="expenseForm" th:action="@{category}" th:object="${expenseCategory}">
+        <label for="categoryName">Expense Category Name:</label>
+        <input type="text" id="categoryName" name="categoryName" placeholder="Enter Category Name" th:field="*{name}" required>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+</body>
+</html>
