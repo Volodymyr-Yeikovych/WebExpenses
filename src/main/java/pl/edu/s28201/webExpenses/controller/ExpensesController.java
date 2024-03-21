@@ -2,16 +2,15 @@ package pl.edu.s28201.webExpenses.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.s28201.webExpenses.model.*;
 import pl.edu.s28201.webExpenses.repository.CurrencyRepository;
 import pl.edu.s28201.webExpenses.repository.ExpenseCategoryRepository;
-import pl.edu.s28201.webExpenses.repository.ExpenseOriginRepository;
+import pl.edu.s28201.webExpenses.repository.ExpenseShopRepository;
 import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
+import pl.edu.s28201.webExpenses.service.SecurityService;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -24,40 +23,35 @@ public class ExpensesController {
 
     private final ExpenseRepository expenseRepository;
     private final ExpenseCategoryRepository categoryRepository;
-    private final ExpenseOriginRepository originRepository;
+    private final ExpenseShopRepository shopRepository;
     private final CurrencyRepository currencyRepository;
 
+    private final SecurityService securityService;
+
     @Autowired
-    public ExpensesController(ExpenseRepository expenseRepository, ExpenseCategoryRepository categoryRepository, ExpenseOriginRepository originRepository, CurrencyRepository currencyRepository) {
+    public ExpensesController(ExpenseRepository expenseRepository, ExpenseCategoryRepository categoryRepository, ExpenseShopRepository shopRepository, CurrencyRepository currencyRepository, SecurityService securityService) {
         this.expenseRepository = expenseRepository;
         this.categoryRepository = categoryRepository;
-        this.originRepository = originRepository;
+        this.shopRepository = shopRepository;
         this.currencyRepository = currencyRepository;
+        this.securityService = securityService;
     }
 
     @GetMapping
     public String displayExpensePage(Model model) {
         log.info("GET: Inside displayExpensePage()");
-        AppUser currentUser = getUserFromSecurity();
+        AppUser currentUser = securityService.getUserFromSecurity();
         model.addAttribute("expenses", expenseRepository.findExpensesByUser(currentUser));
-        model.addAttribute("expenseCategory", new ExpenseCategory());
         return "expenses";
-    }
-
-    private AppUser getUserFromSecurity() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        SecurityAppUser securityAppUser = (SecurityAppUser) authentication.getPrincipal();
-        return securityAppUser.getUser();
     }
 
     @GetMapping("/new")
     public String displayNewExpensePage(Model model) {
         log.info("GET: Inside displayNewExpensePage()");
-        AppUser currentUser = getUserFromSecurity();
+        AppUser currentUser = securityService.getUserFromSecurity();
         model.addAttribute("expense", new Expense());
         model.addAttribute("categories", categoryRepository.findByUser(currentUser));
-        model.addAttribute("origins", originRepository.findByUser(currentUser));
+        model.addAttribute("shops", shopRepository.findByUser(currentUser));
         model.addAttribute("currencies", currencyRepository.findAllCurrenciesCodeToNameMap());
         return "newExpense";
     }
@@ -67,31 +61,24 @@ public class ExpensesController {
                                      @RequestParam("moneySpent") String moneySpent,
                                      @RequestParam("currency") String currency,
                                      @RequestParam("category") String categoryName,
-                                     @ModelAttribute("originObj") ExpenseOrigin expenseOrigin,
-                                     @RequestParam("origin") String originName,
+                                     @RequestParam("shop") String shopName,
                                      @RequestParam(value = "description", required = false) String description) {
         log.info("POST: Inside returnReadyExpense()");
 
         Optional<ExpenseCategory> category = categoryRepository.findByName(categoryName);
-        Optional<ExpenseOrigin> origin =  originRepository.findByName(originName);
+        Optional<ExpenseShop> shops =  shopRepository.findByName(shopName);
         BigDecimal parsedMoneySpent = new BigDecimal(moneySpent);
         Currency parsedCurrency = Currency.getInstance(currency);
 
-        expense.setUser(getUserFromSecurity());
+        expense.setUser(securityService.getUserFromSecurity());
         expense.setMoneySpent(parsedMoneySpent);
         expense.setCurrency(parsedCurrency);
         category.ifPresent(expense::setCategory);
-        origin.ifPresent(expense::setOrigin);
+        shops.ifPresent(expense::setShop);
         expense.setDescription(description);
 
         expenseRepository.save(expense);
 
-        return "redirect:/expenses";
-    }
-
-    @PostMapping("/new-cat")
-    public String returnReadyCategory(@ModelAttribute("expenseCategory") ExpenseCategory expense) {
-        log.info("POST: Inside returnReadyCategory()");
         return "redirect:/expenses";
     }
 
