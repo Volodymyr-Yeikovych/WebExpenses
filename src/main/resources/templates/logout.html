@@ -1,0 +1,88 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"-->
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">-->
+<!--<head>-->
+<!--    <title>Hello World!</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1>-->
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <input type="submit" value="Sign Out"/>-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+        }
+
+        .logout-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .logout-box {
+            background-color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .logout-box p {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .cancel-button,
+        .logout-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cancel-button {
+            background-color: #ff6600;
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .logout-button {
+            background-color: #0077cc;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="logout-page">
+    <div class="logout-box">
+        <form th:action="@{/logout}" method="post">
+            <p>Are you sure you want to log out?</p>
+            <div class="buttons">
+                <a th:href="@{/expenses}">
+                    <button class="cancel-button" type="button">Cancel</button>
+                </a>
+                <button class="logout-button" type="submit">Log Out</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
