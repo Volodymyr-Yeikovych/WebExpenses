@@ -1,8 +1,9 @@
-package pl.edu.s28201.webExpenses.model;
+package pl.edu.s28201.webExpenses.model.expense;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.edu.s28201.webExpenses.model.AppUser;
 
 import java.util.UUID;
 
