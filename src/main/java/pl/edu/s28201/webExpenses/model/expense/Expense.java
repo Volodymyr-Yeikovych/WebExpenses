@@ -1,9 +1,10 @@
-package pl.edu.s28201.webExpenses.model;
+package pl.edu.s28201.webExpenses.model.expense;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import pl.edu.s28201.webExpenses.model.AppUser;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
