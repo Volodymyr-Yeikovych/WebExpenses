@@ -43,12 +43,6 @@
             box-sizing: border-box;
         }
 
-        /*.checkbox-container {*/
-        /*    display: flex;*/
-        /*    justify-content: center;*/
-        /*    align-items: center;*/
-        /*}*/
-
         .checkbox {
             margin: 0;
             padding: 0;
@@ -114,6 +108,7 @@
         .options {
             display: flex;
             justify-content: flex-start;
+            flex-direction: row;
             margin-bottom: 20px;
             position: relative;
         }
@@ -124,11 +119,15 @@
             color: #fff;
             border: none;
             border-radius: 30px;
-            padding: 14px;
-            cursor: pointer;
             margin-right: 20px;
-            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
             transition: background-color 0.3s ease;
+            text-align: center;
+            padding-left: 20px;
+            padding-right: 20px;
+            line-height: 45px;
         }
 
         .filter-button, .sort-button {
@@ -136,12 +135,48 @@
             color: #fff;
             border: none;
             border-radius: 30px;
-            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            padding-left: 20px;
+            padding-right: 20px;
+            line-height: 45px;
+
+        }
+
+        .delete-button {
+            background-color: #8B0000;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
             margin-right: 20px;
             cursor: pointer;
             font-weight: bold;
             font-size: 16px;
             transition: background-color 0.3s ease;
+            padding-left: 20px;
+            padding-right: 20px;
+            line-height: 45px;
+        }
+
+        .logout-button {
+            background-color: #0077cc;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            padding-left: 20px;
+            padding-right: 20px;
+            line-height: 45px;
+        }
+
+        #logout-div {
+            margin-left: auto;
         }
 
         .plus-button {
@@ -149,29 +184,20 @@
             color: #fff;
             border: none;
             border-radius: 50%;
-            padding: 10px;
             cursor: pointer;
             position: relative;
             margin-right: 20px;
             z-index: 1;
             transition: background-color 0.3s ease;
+            font-size: 24px;
+            padding-left: 17px;
+            padding-right: 17px;
+            line-height: 45px;
+            font-weight: bold;
         }
 
         .plus-button[type="submit"]:hover {
             background-color: #ffae42;
-        }
-
-        .plus-button-items {
-            font-size: 24px;
-            padding-left: 7px;
-            padding-right: 7px;
-            font-weight: bold;
-        }
-
-        #plus-category-items, #plus-shop-items {
-            font-size: 16px;
-            padding-top: 3px;
-            font-weight: bold;
         }
 
         /*Tooltips Styles*/
@@ -197,89 +223,177 @@
             transition: opacity 0.3s;
         }
 
-        .tooltip:hover .tooltip-text {
+        .tooltip:hover .tooltip-text, .tooltip:hover .tooltip-text-logout {
             visibility: visible;
             opacity: 1;
         }
 
+        .tooltip-text-logout {
+            visibility: hidden;
+            width: max-content;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            top: 60px;
+            left: 45px;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /*    Sort Select Styles*/
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            line-height: 45px;
+            font-weight: bold;
+            margin-right: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-radius: 30px;
+            background-color: #555;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        select::-ms-expand {
+            display: none;
+        }
+
+        select::after {
+            content: '\25BC';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #0077cc;
+            box-shadow: 0 0 5px rgba(0, 119, 204, 0.5);
+        }
     </style>
 </head>
 <body>
-<form method="post" th:action="@{expenses}" th:object="${expensesDto}">
 <div class="container">
     <div class="tool-bar">
         <div class="options">
             <div class="tooltip">
                 <a th:href="@{/category}">
-                    <button id="plus-category">
-                        <div id="plus-category-items">
-                            Add Expense Category
-                        </div>
+                    <button id="plus-category" type="button">
+                        Add Expense Category
                     </button>
                 </a>
                 <span class="tooltip-text">Click to add a new expense category</span>
             </div>
             <div class="tooltip">
                 <a th:href="@{/shop}">
-                    <button id="plus-shop">
-                        <div id="plus-shop-items">Add Expense Shop</div>
+                    <button id="plus-shop" type="button">
+                        Add Expense Shop
                     </button>
                 </a>
                 <span class="tooltip-text">Click to add a new expense shop</span>
             </div>
             <div class="tooltip">
                 <a th:href="@{/expenses/new}">
-                    <button class="plus-button">
-                        <div class="plus-button-items">
-                            +
-                        </div>
+                    <button class="plus-button" type="button">
+                        +
                     </button>
                 </a>
                 <span class="tooltip-text">Click to add a new expense</span>
             </div>
-            <button class="filter-button">Filter</button>
-            <button class="sort-button">Sort</button>
-            <button id="submitSelectedExpenses" class="sort-button" type="submit">Submit Selected Expenses</button>
+            <div class="tooltip">
+                <button class="filter-button" type="button">Filter</button>
+                <span class="tooltip-text">Click to filter expenses</span>
+            </div>
+            <form id="sort-form" method="post" th:action="@{/expenses/sorted}">
+                <div class="tooltip">
+                    <button class="sort-button" type="submit">Sort By:</button>
+                    <span class="tooltip-text">Click to sort expenses</span>
+                </div>
+                <div class="tooltip">
+                    <select name="sortType">
+                        <option value="date_asc" th:selected="${sortType == 'date_asc'}">Latest First</option>
+                        <option value="date_desc" th:selected="${sortType == 'date_desc'}">Newest First</option>
+
+                        <option value="money_to_usd_asc" th:selected="${sortType == 'money_to_usd_asc'}">Low Price First
+                        </option>
+                        <option value="money_to_usd_desc" th:selected="${sortType == 'money_to_usd_desc'}">High Price
+                            First
+                        </option>
+
+                        <option value="category_asc" th:selected="${sortType == 'category_asc'}">Category Alphabetical
+                        </option>
+                        <option value="category_desc" th:selected="${sortType == 'category_desc'}">Category
+                            Reverse-Alphabetical
+                        </option>
+
+                        <option value="shop_asc" th:selected="${sortType == 'shop_asc'}">Shop Alphabetical</option>
+                        <option value="shop_desc" th:selected="${sortType == 'shop_desc'}">Shop Reverse-Alphabetical</option>
+                    </select>
+                    <span class="tooltip-text">Select sort method</span>
+                </div>
+            </form>
+            <form id="expenseForm" method="post" th:action="@{expenses}">
+                <div class="tooltip">
+                    <button id="submitSelectedExpenses" class="delete-button" type="submit">
+                        Delete Selected Expenses
+                    </button>
+                    <span class="tooltip-text">Click to delete selected expenses</span>
+                </div>
+                <input type="hidden" id="selectedExpenses" name="selectedExpenses"/>
+            </form>
+            <div class="tooltip" id="logout-div">
+                <a th:href="@{/logout}">
+                    <button class="logout-button" type="button">Log Out</button>
+                </a>
+                <span class="tooltip-text-logout">Click to log out</span>
+            </div>
         </div>
     </div>
     <ul class="item-list">
-        <li class="item" th:each="expense, item : ${expensesDto.expenses}">
+        <li class="item" th:each="expense : ${expenses}">
             <div class="item-container">
                 <div class="dot-separator">
-                    <input type="checkbox" class="checkbox" th:value="*{expenses[__${item.index}__].id}" onclick="handleCheckboxSelection(this)" name="selectedExpenses">
+                    <input type="checkbox" class="checkbox" th:value="${expense.id}"
+                           onclick="handleCheckboxSelection(this)" name="selectedExpenses">
                 </div>
-<!--                <p class="dot-separator"></p>-->
-                <th:block th:with="rawDate=*{expenses[__${item.index}__].timeMade}">
-                    <p class="date" th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatExpenseDate(rawDate)}"></p>
+                <th:block th:with="rawDate=${expense.timeMade}">
+                    <p class="date"
+                       th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatExpenseDate(rawDate)}"></p>
                 </th:block>
                 <p class="line-separator">|</p>
-                <th:block th:with="rawAmount=*{expenses[__${item.index}__].moneySpent}, rawCurrency=*{expenses[__${item.index}__].currency}">
-                    <p class="amount" th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatMoneySpent(rawAmount, rawCurrency)}"></p>
+                <th:block th:with="rawAmount=${expense.moneySpent}, rawCurrency=${expense.currency}">
+                    <p class="amount"
+                       th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatMoneySpent(rawAmount, rawCurrency)}"></p>
                 </th:block>
                 <p class="line-separator">|</p>
-                <p class="category" th:text="*{expenses[__${item.index}__].category.getName()}"></p>
+                <p class="category" th:text="${expense.category.getName()}"></p>
                 <p class="line-separator">|</p>
-                <p class="shop" th:text="*{expenses[__${item.index}__].getShop().getName()}"></p>
+                <p class="shop" th:text="${expense.getShop().getName()}"></p>
                 <p class="line-separator">|</p>
-                <p class="desc" th:text="*{expenses[__${item.index}__].description}"></p>
+                <p class="desc" th:text="${expense.description}"></p>
             </div>
         </li>
     </ul>
 </div>
-</form>
-
-<input type="hidden" id="selectedExpenses" name="selectedExpenses" />
-
 <script>
     function handleCheckboxSelection(checkbox) {
         var selectedExpenses = document.querySelectorAll('input[name="selectedExpenses"]:checked');
         var selectedExpensesIds = [];
-        selectedExpenses.forEach(function(checkbox) {
+        selectedExpenses.forEach(function (checkbox) {
             selectedExpensesIds.push(checkbox.value);
         });
-        // Update the value of the hidden input field with the selected expense IDs
         document.getElementById("selectedExpenses").value = selectedExpensesIds.join(',');
     }
+
 </script>
 </body>
 </html>
