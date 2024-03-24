@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.s28201.webExpenses.model.ExpenseShop;
+import pl.edu.s28201.webExpenses.model.expense.ExpenseShop;
 import pl.edu.s28201.webExpenses.repository.ExpenseShopRepository;
 import pl.edu.s28201.webExpenses.service.SecurityService;
 
