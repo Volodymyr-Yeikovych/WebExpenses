@@ -8,4 +8,6 @@ public interface CurrencyRepository {
 
     Set<Currency> findAll();
     Map<String, String> findAllCurrenciesCodeToNameMap();
+
+    double getCurrencyToUsdRate(Currency currency);
 }
