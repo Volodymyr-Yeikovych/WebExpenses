@@ -7,8 +7,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
-import java.util.Currency;
-import java.util.Locale;
+import java.util.*;
 
 @Service
 public class ExpenseParsingService {
@@ -22,5 +21,9 @@ public class ExpenseParsingService {
         symbols.setGroupingSeparator(',');
         symbols.setDecimalSeparator('.');
         return new DecimalFormat("#,###.##", symbols).format(amount) + " " + currency.getSymbol();
+    }
+
+    public static List<UUID> parseExpenseIds(String string, String separator) {
+        return Arrays.stream(string.split(separator)).map(UUID::fromString).toList();
     }
 }
