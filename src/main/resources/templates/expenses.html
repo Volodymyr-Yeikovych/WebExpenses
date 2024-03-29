@@ -130,6 +130,10 @@
             line-height: 45px;
         }
 
+        #plus-category:hover, #plus-shop:hover, .plus-button:hover {
+            background-color: #8B0000;
+        }
+
         .filter-button, .sort-button {
             background-color: #555;
             color: #fff;
@@ -175,8 +179,14 @@
             line-height: 45px;
         }
 
-        #logout-div {
+        .logout-button:hover {
+            background-color: #011627;
+        }
+
+        #name-logout {
             margin-left: auto;
+            display: flex;
+            align-items: center;
         }
 
         .plus-button {
@@ -198,6 +208,17 @@
 
         .plus-button[type="submit"]:hover {
             background-color: #ffae42;
+        }
+
+        button:hover {
+            background-color: #ff6600;
+        }
+
+        #user-name {
+            color: #ff6600;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 30px;
         }
 
         /*Tooltips Styles*/
@@ -279,6 +300,8 @@
             border-color: #0077cc;
             box-shadow: 0 0 5px rgba(0, 119, 204, 0.5);
         }
+
+
     </style>
 </head>
 <body>
@@ -336,7 +359,8 @@
                         </option>
 
                         <option value="shop_asc" th:selected="${sortType == 'shop_asc'}">Shop Alphabetical</option>
-                        <option value="shop_desc" th:selected="${sortType == 'shop_desc'}">Shop Reverse-Alphabetical</option>
+                        <option value="shop_desc" th:selected="${sortType == 'shop_desc'}">Shop Reverse-Alphabetical
+                        </option>
                     </select>
                     <span class="tooltip-text">Select sort method</span>
                 </div>
@@ -350,11 +374,16 @@
                 </div>
                 <input type="hidden" id="selectedExpenses" name="selectedExpenses"/>
             </form>
-            <div class="tooltip" id="logout-div">
-                <a th:href="@{/logout}">
-                    <button class="logout-button" type="button">Log Out</button>
-                </a>
-                <span class="tooltip-text-logout">Click to log out</span>
+            <div id="name-logout">
+                <p id="user-name" th:if="${username}" th:text="${username}">
+                    John Doe
+                </p>
+                <div class="tooltip" id="logout-div">
+                    <a th:href="@{/logout}">
+                        <button class="logout-button" type="button">Log Out</button>
+                    </a>
+                    <span class="tooltip-text-logout">Click to log out</span>
+                </div>
             </div>
         </div>
     </div>
