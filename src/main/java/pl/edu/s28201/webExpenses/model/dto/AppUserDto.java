@@ -1,7 +1,8 @@
-package pl.edu.s28201.webExpenses.model;
+package pl.edu.s28201.webExpenses.model.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,9 +28,11 @@ public class AppUserDto {
     private String lastName;
     @NotNull
     @NotEmpty
+    @Size(min = 6, message = "Password Must be at least 6 characters long.")
     private String password;
     @NotNull
     @NotEmpty
+    @Size(min = 6, message = "Password Must be at least 6 characters long.")
     private String matchingPassword;
 
     public AppUserDto(String email, String firstName, String lastName, String password) {
