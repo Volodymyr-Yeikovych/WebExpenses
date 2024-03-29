@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.s28201.webExpenses.exception.AppUserAlreadyExistsException;
 import pl.edu.s28201.webExpenses.model.AppUser;
-import pl.edu.s28201.webExpenses.model.AppUserDto;
+import pl.edu.s28201.webExpenses.model.dto.AppUserDto;
 import pl.edu.s28201.webExpenses.repository.AppUserRepository;
 
 @Service
@@ -17,10 +17,12 @@ public class AppUserService {
 
     private final AppUserRepository repository;
     private final PasswordEncoder encoder;
+    private final DefaultUserDataCreationService dataCreationService;
     @Autowired
-    public AppUserService(AppUserRepository repository, PasswordEncoder encoder) {
+    public AppUserService(AppUserRepository repository, PasswordEncoder encoder, DefaultUserDataCreationService dataCreationService) {
         this.repository = repository;
         this.encoder = encoder;
+        this.dataCreationService = dataCreationService;
     }
 
     public AppUser registerNewUserAccount(AppUserDto dto) throws AppUserAlreadyExistsException {
@@ -36,6 +38,8 @@ public class AppUserService {
                 .build();
 
         repository.save(user);
+
+        dataCreationService.addDefaultDataToUser(user);
 
         log.info("Got from Registration: " + user);
 
