@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expenses</title>
+    <title>Expense Manager</title>
     <style>
         body {
             margin: 0;
@@ -114,7 +114,7 @@
         }
 
         /*Buttons Styles*/
-        #plus-category, #plus-shop {
+        #plus-category, #plus-shop, #delete-cat-shops {
             background-color: #ff6600;
             color: #fff;
             border: none;
@@ -130,7 +130,7 @@
             line-height: 45px;
         }
 
-        #plus-category:hover, #plus-shop:hover, .plus-button:hover {
+        #plus-category:hover, #plus-shop:hover, .plus-button:hover, #delete-cat-shops:hover {
             background-color: #8B0000;
         }
 
@@ -374,6 +374,14 @@
                 </div>
                 <input type="hidden" id="selectedExpenses" name="selectedExpenses"/>
             </form>
+            <div class="tooltip">
+                <a th:href="@{/edit}">
+                    <button id="delete-cat-shops" type="button">
+                        Delete Category/Shop
+                    </button>
+                </a>
+                <span class="tooltip-text">Click to choose which shop/category to delete</span>
+            </div>
             <div id="name-logout">
                 <p id="user-name" th:if="${username}" th:text="${username}">
                     John Doe
@@ -392,21 +400,17 @@
             <div class="item-container">
                 <div class="dot-separator">
                     <input type="checkbox" class="checkbox" th:value="${expense.id}"
-                           onclick="handleCheckboxSelection(this)" name="selectedExpenses">
+                           onclick="addExpenses(this)" name="selectedExpenses">
                 </div>
-                <th:block th:with="rawDate=${expense.timeMade}">
-                    <p class="date"
-                       th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatExpenseDate(rawDate)}"></p>
-                </th:block>
+                <p class="date"
+                   th:text="${expense.timeMade}"></p>
                 <p class="line-separator">|</p>
-                <th:block th:with="rawAmount=${expense.moneySpent}, rawCurrency=${expense.currency}">
-                    <p class="amount"
-                       th:text="${T(pl.edu.s28201.webExpenses.service.ExpenseParsingService).formatMoneySpent(rawAmount, rawCurrency)}"></p>
-                </th:block>
+                <p class="amount"
+                   th:text="${expense.moneyAndCurrency}"></p>
                 <p class="line-separator">|</p>
-                <p class="category" th:text="${expense.category.getName()}"></p>
+                <p class="category" th:text="${expense.category}"></p>
                 <p class="line-separator">|</p>
-                <p class="shop" th:text="${expense.getShop().getName()}"></p>
+                <p class="shop" th:text="${expense.shop}"></p>
                 <p class="line-separator">|</p>
                 <p class="desc" th:text="${expense.description}"></p>
             </div>
@@ -414,7 +418,7 @@
     </ul>
 </div>
 <script>
-    function handleCheckboxSelection(checkbox) {
+    function addExpenses(checkbox) {
         var selectedExpenses = document.querySelectorAll('input[name="selectedExpenses"]:checked');
         var selectedExpensesIds = [];
         selectedExpenses.forEach(function (checkbox) {
