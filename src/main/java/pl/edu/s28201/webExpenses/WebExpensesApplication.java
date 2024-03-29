@@ -26,20 +26,26 @@ public class WebExpensesApplication {
         return (args) -> {
             mockService.createMocksIfNeeded();
 
-            userRepository.findByEmail("email6example").ifPresent(userRepository::delete);
+            printAllUsers(userRepository);
 
-            log.info("Users found with findAll():");
-            log.info("<<<------------------------------->>>");
-            userRepository.findAll().forEach(user -> log.info(user.toString()));
-            log.info("<<<-------------------------------->>>");
-            log.info("");
-
-            log.info("Expenses: ");
-            log.info("<<<-------------------------------->>>");
-            expenseRepository.findAll().forEach(expense -> log.info(expense.toString()));
-            log.info("<<<-------------------------------->>>");
-            log.info("");
+//            printAllExpenses(expenseRepository);
         };
+    }
+
+    private static void printAllUsers(AppUserRepository userRepository) {
+        log.info("Users found with findAll():");
+        log.info("<<<------------------------------->>>");
+        userRepository.findAll().forEach(user -> log.info(user.toString()));
+        log.info("<<<-------------------------------->>>");
+        log.info("");
+    }
+
+    private static void printAllExpenses(ExpenseRepository expenseRepository) {
+        log.info("Expenses: ");
+        log.info("<<<-------------------------------->>>");
+        expenseRepository.findAll().forEach(expense -> log.info(expense.toString()));
+        log.info("<<<-------------------------------->>>");
+        log.info("");
     }
 
 }
