@@ -11,6 +11,7 @@ import pl.edu.s28201.webExpenses.model.*;
 import pl.edu.s28201.webExpenses.model.expense.Expense;
 import pl.edu.s28201.webExpenses.model.expense.ExpenseSortType;
 import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
+import pl.edu.s28201.webExpenses.service.AppUserService;
 import pl.edu.s28201.webExpenses.service.ExpenseParsingService;
 import pl.edu.s28201.webExpenses.service.ExpenseSortingService;
 import pl.edu.s28201.webExpenses.service.SecurityService;
@@ -25,13 +26,15 @@ public class ExpensesController {
     private final ExpenseRepository expenseRepository;
     private final SecurityService securityService;
     private final ExpenseSortingService expenseSortingService;
+    private final AppUserService userService;
 
     @Autowired
     public ExpensesController(ExpenseRepository expenseRepository,
-                              SecurityService securityService, ExpenseSortingService expenseSortingService) {
+                              SecurityService securityService, ExpenseSortingService expenseSortingService, AppUserService userService) {
         this.expenseRepository = expenseRepository;
         this.securityService = securityService;
         this.expenseSortingService = expenseSortingService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -46,6 +49,9 @@ public class ExpensesController {
 
         List<Expense> expenses = sortAndRetrieveExpenses(sortType);
         model.addAttribute("expenses", expenses);
+
+        String username = userService.getUsernameFromUser(securityService.getUserFromSecurity());
+        model.addAttribute("username", username);
 
         return "expenses";
     }
