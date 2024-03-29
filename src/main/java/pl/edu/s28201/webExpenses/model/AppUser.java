@@ -1,14 +1,17 @@
 package pl.edu.s28201.webExpenses.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+
 import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
+@Builder
 public class AppUser {
 
     @Id
@@ -20,6 +23,7 @@ public class AppUser {
     )
     @Column(name = "userId", updatable = false, nullable = false)
     private UUID userId;
+
     @Column(unique = true)
     private String email;
     private String firstName;
