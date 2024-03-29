@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Page</title>
+    <title>Expense Manager</title>
     <style>
         body {
             margin: 0;
@@ -125,6 +125,8 @@
                     <p class="msg-error" th:each="error : ${#fields.globalErrors()}"
                        th:text="${error}">Validation error</p>
                     <p class="msg-error" th:if="${message}" th:text="${message}">Validation error</p>
+                    <p class="msg-error" th:each="error : ${#fields.errors('password')}"
+                       th:text="${error}">Validation error</p>
                 </div>
                 <input type="submit" value="Register">
             </form>
