@@ -26,6 +26,8 @@ public class WebExpensesApplication {
         return (args) -> {
             mockService.createMocksIfNeeded();
 
+            userRepository.findByEmail("email6example").ifPresent(userRepository::delete);
+
             log.info("Users found with findAll():");
             log.info("<<<------------------------------->>>");
             userRepository.findAll().forEach(user -> log.info(user.toString()));
