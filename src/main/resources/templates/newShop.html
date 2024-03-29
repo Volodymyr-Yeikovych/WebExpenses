@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New Shop</title>
+    <title>Expense Manager</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,22 +48,47 @@
             color: #ddd;
         }
 
-        input[type="submit"] {
+        .button-group {
+            text-align: center;
+        }
+
+        .back-button,
+        .create-button {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .back-button {
+            margin-left: 5px;
+        }
+
+        .back-button a {
+            background-color: #0077cc;
+            padding: 10px 52px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .create-button input[type="submit"] {
             background-color: #ff6600;
             color: #ddd;
             border: none;
-            padding: 10px 60px;
+            padding: 10px 80px;
             cursor: pointer;
             font-size: 15px;
             border-radius: 30px;
             font-weight: bold;
-            position: relative;
-            left: 30%;
         }
 
-        input[type="submit"]:hover {
+        .create-button input[type="submit"]:hover {
             background-color: #8B0000;
+        }
 
+        .back-button a:hover {
+            background-color: #011627;
         }
     </style>
 </head>
@@ -75,7 +100,14 @@
     <form method="post" id="expenseForm" th:action="@{shop}" th:object="${expenseShop}">
         <label for="shopName">Expense Shop Name:</label>
         <input type="text" id="shopName" name="shopName" placeholder="Enter Shop Name" th:field="*{name}" required>
-        <input type="submit" value="Submit">
+        <div class="button-group">
+            <div class="create-button">
+                <input type="submit" value="Create Shop">
+            </div>
+            <div class="back-button">
+                <a th:href="@{/expenses}">Back</a>
+            </div>
+        </div>
     </form>
 </div>
 
