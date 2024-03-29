@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category and Shop Selection</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin: 50px auto;
+            width: 80%;
+            max-width: 1000px;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .top-bar button {
+            background-color: orange;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 0 10px;
+        }
+
+        .top-bar button:hover {
+            background-color: #ff8c00;
+        }
+
+        .category,
+        .shop {
+            width: 48%;
+            float: left;
+            padding-right: 2%;
+        }
+
+        .category h2,
+        .shop h2 {
+            color: #ff6600;
+            margin-bottom: 10px;
+        }
+
+        .list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-item {
+            margin-bottom: 10px;
+        }
+
+        .list-item label {
+            display: inline-block;
+        }
+
+        .list-item input[type="checkbox"] {
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-bar">
+        <form id="deleteForm" method="post" th:action="@{edit}">
+            <button>Delete Selected</button>
+            <button onclick="history.back()">Go Back</button>
+            <input type="hidden" id="selectedCategories" name="selectedCategories"/>
+            <input type="hidden" id="selectedShops" name="selectedShops"/>
+        </form>
+    </div>
+    <div class="category">
+        <h2>Category</h2>
+        <ul class="list">
+            <li class="list-item" th:each="category : ${categories}">
+                <div class="item">
+                    <input class="checkboxes" type="checkbox" th:value="${category.id}" onclick="addCategories(this)"
+                           name="categories">
+                    <label th:text="${category.name}">sss</label>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="shop">
+        <h2>Shop</h2>
+        <ul class="list">
+            <li class="list-item" th:each="shop : ${shops}">
+                <div class="item">
+                    <input class="checkboxes" type="checkbox" th:value="${shop.id}" onclick="addShops(this)"
+                           name="shops">
+                    <label th:text="${shop.name}">sss</label>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    function addShops(checkbox) {
+        var selectedExpenses = document.querySelectorAll('input[name="shops"]:checked');
+        var selectedExpensesIds = [];
+        selectedExpenses.forEach(function (checkbox) {
+            selectedExpensesIds.push(checkbox.value);
+        });
+        document.getElementById("selectedShops").value = selectedExpensesIds.join(',');
+    }
+
+    function addCategories(checkbox) {
+        var selectedExpenses = document.querySelectorAll('input[name="categories"]:checked');
+        var selectedExpensesIds = [];
+        selectedExpenses.forEach(function (checkbox) {
+            selectedExpensesIds.push(checkbox.value);
+        });
+        document.getElementById("selectedCategories").value = selectedExpensesIds.join(',');
+    }
+
+</script>
+</body>
+</html>
