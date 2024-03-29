@@ -8,12 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.s28201.webExpenses.model.*;
+import pl.edu.s28201.webExpenses.model.dto.ExpenseDto;
 import pl.edu.s28201.webExpenses.model.expense.Expense;
 import pl.edu.s28201.webExpenses.model.expense.ExpenseSortType;
 import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
 import pl.edu.s28201.webExpenses.service.AppUserService;
-import pl.edu.s28201.webExpenses.service.ExpenseParsingService;
-import pl.edu.s28201.webExpenses.service.ExpenseSortingService;
+import pl.edu.s28201.webExpenses.service.ExpenseService;
 import pl.edu.s28201.webExpenses.service.SecurityService;
 
 import java.util.*;
@@ -25,15 +25,15 @@ public class ExpensesController {
 
     private final ExpenseRepository expenseRepository;
     private final SecurityService securityService;
-    private final ExpenseSortingService expenseSortingService;
+    private final ExpenseService expenseService;
     private final AppUserService userService;
 
     @Autowired
     public ExpensesController(ExpenseRepository expenseRepository,
-                              SecurityService securityService, ExpenseSortingService expenseSortingService, AppUserService userService) {
+                              SecurityService securityService, ExpenseService expenseService, AppUserService userService) {
         this.expenseRepository = expenseRepository;
         this.securityService = securityService;
-        this.expenseSortingService = expenseSortingService;
+        this.expenseService = expenseService;
         this.userService = userService;
     }
 
@@ -47,8 +47,9 @@ public class ExpensesController {
         }
         model.addAttribute("sortType", sortType);
 
-        List<Expense> expenses = sortAndRetrieveExpenses(sortType);
-        model.addAttribute("expenses", expenses);
+        List<ExpenseDto> dtos = expenseService.parseToExpenseDto(sortAndRetrieveExpenses(sortType));
+
+        model.addAttribute("expenses", dtos);
 
         String username = userService.getUsernameFromUser(securityService.getUserFromSecurity());
         model.addAttribute("username", username);
@@ -57,7 +58,7 @@ public class ExpensesController {
     }
 
     private List<Expense> sortAndRetrieveExpenses(String strSort) {
-        ExpenseSortType sortType = expenseSortingService.getSortTypeFromString(strSort);
+        ExpenseSortType sortType = expenseService.getSortTypeFromString(strSort);
 
         return getSortedExpenses(sortType);
     }
@@ -75,8 +76,8 @@ public class ExpensesController {
             case SHOP_ABC_ASC -> expenseRepository.findExpensesByUser(user, Sort.by(Sort.Direction.ASC, "shop.name"));
             case SHOP_ABC_DESC -> expenseRepository.findExpensesByUser(user, Sort.by(Sort.Direction.DESC, "shop.name"));
 
-            case MONEY_TO_USD_ASC -> expenseSortingService.sortByMoneyAsc(expenseRepository.findExpensesByUser(user));
-            case MONEY_TO_USD_DESC -> expenseSortingService.sortByMoneyDesc(expenseRepository.findExpensesByUser(user));
+            case MONEY_TO_USD_ASC -> expenseService.sortByMoneyAsc(expenseRepository.findExpensesByUser(user));
+            case MONEY_TO_USD_DESC -> expenseService.sortByMoneyDesc(expenseRepository.findExpensesByUser(user));
         };
     }
 
@@ -84,9 +85,8 @@ public class ExpensesController {
     public String returnExpensesPage(@RequestParam(value = "selectedExpenses", defaultValue = "") String selectedExpensesIds) {
         log.info("POST: Inside returnExpensesPage()");
         if (selectedExpensesIds != null && !selectedExpensesIds.isEmpty()) {
-            log.info(selectedExpensesIds);
-            List<UUID> ids = ExpenseParsingService.parseExpenseIds(selectedExpensesIds, ",");
-            log.info("Parsed: " + ids.toString());
+            List<UUID> ids = expenseService.parseExpenseIds(selectedExpensesIds, ",");
+            log.info("Parsed Expenses IDs to Delete: " + ids.toString());
             expenseRepository.deleteAllById(ids);
         } else {
             log.info("No expenses selected");
