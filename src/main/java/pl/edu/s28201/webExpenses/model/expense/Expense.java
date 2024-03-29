@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import pl.edu.s28201.webExpenses.model.AppUser;
+import pl.edu.s28201.webExpenses.validation.time.DateTime;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,6 +32,7 @@ public class Expense {
     private UUID id;
     @ManyToOne(targetEntity = AppUser.class)
     private AppUser user;
+    @DateTime
     private LocalDateTime timeMade;
     private BigDecimal moneySpent;
     private Currency currency;
