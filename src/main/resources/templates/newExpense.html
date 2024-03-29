@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Expense</title>
+    <title>Expense Manager</title>
     <style>
         body {
             background-color: #1a1a1a;
@@ -37,20 +37,6 @@
             color: #ccc;
         }
 
-        input[type="submit"] {
-            background-color: #ff6600;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #8B0000;
-        }
-
         select {
             background-color: #333;
             color: #bbb;
@@ -58,6 +44,64 @@
 
         option {
             color: #fff;
+        }
+
+        .msg-error {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-button,
+        .create-button {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .back-button {
+            margin-left: 5px;
+        }
+
+        .back-button a {
+            background-color: #0077cc;
+            padding: 10px 100px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .create-button input[type="submit"] {
+            background-color: #ff6600;
+            color: #ddd;
+            border: none;
+            padding: 10px 120px;
+            cursor: pointer;
+            font-size: 15px;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+
+        .create-button input[type="submit"]:hover {
+            background-color: #8B0000;
+        }
+
+        .back-button a:hover {
+            background-color: #011627;
+        }
+
+        #moneySpent, #description {
+            width: 100%;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -67,23 +111,27 @@
     <form method="post" th:action="@{/expenses/new}" th:object="${expense}">
         <div class="form-group">
             <label for="timeMade">Time Made:</label>
-            <input type="date" id="timeMade" name="timeMade" placeholder="Enter time in YYYY-MM-DD format" required>
+            <input type="date" id="timeMade" th:field="*{timeMade}" name="timeMade"
+                   placeholder="Enter time in YYYY-MM-DD format" required>
         </div>
         <div class="form-group">
             <label for="moneySpent">Money Spent (xx.xx):</label>
-            <input type="text" id="moneySpent" name="moneySpent" th:field="*{moneySpent}" placeholder="Enter amount with 2 digits after dot"
+            <input type="text" id="moneySpent" name="moneySpent" th:field="*{moneySpent}"
+                   placeholder="Enter amount with 2 digits after dot"
                    required>
         </div>
         <div class="form-group">
             <label for="currency">Currency:</label>
             <select id="currency" name="currency" required>
-                <option th:each="currency : ${currencies.entrySet()}" th:value="${currency.key}" th:text="${currency.value}"></option>
+                <option th:each="currency : ${currencies.entrySet()}" th:value="${currency.key}"
+                        th:text="${currency.value}"></option>
             </select>
         </div>
         <div class="form-group">
             <label for="category">Expense Category:</label>
             <select id="category" name="category" required>
-                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                <option th:each="category : ${categories}" th:value="${category.id}"
+                        th:text="${category.name}"></option>
             </select>
         </div>
         <div class="form-group">
@@ -94,9 +142,19 @@
         </div>
         <div class="form-group">
             <label for="description">Description:</label>
-            <input type="text" id="description" name="description" th:field="*{description}" placeholder="Enter expense description">
+            <input type="text" id="description" name="description" th:field="*{description}"
+                   placeholder="Enter expense description">
         </div>
-        <input type="submit" value="Create Expense">
+        <div class="button-group">
+            <div class="create-button">
+                <input type="submit" value="Create Expense">
+            </div>
+            <div class="back-button">
+                <a th:href="@{/expenses}">Back</a>
+            </div>
+        </div>
+        <p class="msg-error" th:if="${dateErrorMsg}"
+           th:text="${dateErrorMsg}">Validation error</p>
     </form>
 </div>
 </body>
