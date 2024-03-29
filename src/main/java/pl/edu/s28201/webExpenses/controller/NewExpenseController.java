@@ -1,10 +1,13 @@
 package pl.edu.s28201.webExpenses.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.edu.s28201.webExpenses.model.AppUser;
 import pl.edu.s28201.webExpenses.model.expense.Expense;
 import pl.edu.s28201.webExpenses.model.expense.ExpenseCategory;
@@ -43,22 +46,44 @@ public class NewExpenseController {
     @GetMapping
     public String displayNewExpensePage(Model model) {
         log.info("GET: Inside displayNewExpensePage()");
+
+        fillModel(model);
+
+        return "newExpense";
+    }
+
+    private void fillModel(Model model) {
         AppUser currentUser = securityService.getUserFromSecurity();
         model.addAttribute("expense", new Expense());
         model.addAttribute("categories", categoryRepository.findByUser(currentUser));
         model.addAttribute("shops", shopRepository.findByUser(currentUser));
         model.addAttribute("currencies", currencyRepository.findAllCurrenciesCodeToNameMap());
-        return "newExpense";
+    }
+
+    private void fillModelAndView(ModelAndView mav) {
+        AppUser currentUser = securityService.getUserFromSecurity();
+        mav.addObject("expense", new Expense());
+        mav.addObject("categories", categoryRepository.findByUser(currentUser));
+        mav.addObject("shops", shopRepository.findByUser(currentUser));
+        mav.addObject("currencies", currencyRepository.findAllCurrenciesCodeToNameMap());
     }
 
     @PostMapping
-    public String returnReadyExpense(@ModelAttribute Expense expense,
-                                     @RequestParam("moneySpent") String moneySpent,
-                                     @RequestParam("currency") String currency,
-                                     @RequestParam("category") String categoryName,
-                                     @RequestParam("shop") String shopName,
-                                     @RequestParam(value = "description", required = false) String description) {
+    public ModelAndView returnReadyExpense(@ModelAttribute @Valid Expense expense, Errors errors,
+                                           @RequestParam("moneySpent") String moneySpent,
+                                           @RequestParam("currency") String currency,
+                                           @RequestParam("category") String categoryName,
+                                           @RequestParam("shop") String shopName,
+                                           @RequestParam(value = "description", required = false) String description) {
         log.info("POST: Inside returnReadyExpense()");
+
+        if (errors.hasErrors()) {
+            log.info("Errors: {}", errors.getAllErrors());
+            ModelAndView modelAndView = new ModelAndView("newExpense");
+            modelAndView.addObject("dateErrorMsg", "Invalid Date");
+            fillModelAndView(modelAndView);
+            return modelAndView;
+        }
 
         Optional<ExpenseCategory> category = categoryRepository.findByName(categoryName);
         Optional<ExpenseShop> shops =  shopRepository.findByName(shopName);
@@ -74,11 +99,12 @@ public class NewExpenseController {
 
         expenseRepository.save(expense);
 
-        return "redirect:/expenses";
+        return new ModelAndView("redirect:/expenses");
     }
 
     @ModelAttribute("expense")
     public Expense expense() {
         return new Expense();
     }
+
 }
