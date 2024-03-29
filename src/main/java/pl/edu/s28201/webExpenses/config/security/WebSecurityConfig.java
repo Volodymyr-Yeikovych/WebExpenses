@@ -31,16 +31,16 @@ public class WebSecurityConfig {
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**").permitAll()
-                                .requestMatchers("/", "/landing", "/login**", "/error/**", "/callback/").permitAll()
+                                .requestMatchers("/", "/landing", "/login**", "/error/**", "/callback/", "/register").permitAll()
                                 .anyRequest().authenticated())
                 .logout(httpSecurityLogoutConfigurer ->
                         httpSecurityLogoutConfigurer.logoutUrl("/logout")
                                 .addLogoutHandler(logoutHandler)
-//                                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
                                 .logoutSuccessUrl("/login?logout")
                                 .permitAll())
                 .formLogin(form -> form.loginPage("/login")
                         .loginProcessingUrl("/login")
+                        .successForwardUrl("/expenses")
                         .failureUrl("/login?error"));
 
         return http.build();
