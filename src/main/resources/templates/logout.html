@@ -1,16 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"-->
-<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">-->
-<!--<head>-->
-<!--    <title>Hello World!</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1>-->
-<!--<form th:action="@{/logout}" method="post">-->
-<!--    <input type="submit" value="Sign Out"/>-->
-<!--</form>-->
-<!--</body>-->
-<!--</html>-->
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
@@ -41,8 +28,10 @@
 
         .logout-box p {
             color: #fff;
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 20px;
+            margin-right: 20px;
+            margin-left: 20px;
         }
 
         .buttons {
@@ -52,21 +41,33 @@
 
         .cancel-button,
         .logout-button {
-            padding: 10px 20px;
+            padding: 10px 40px;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
+            font-size: 18px;
             cursor: pointer;
+            line-height: 25px;
         }
 
         .cancel-button {
             background-color: #ff6600;
             color: #fff;
-            margin-right: 10px;
+            margin-right: 40px;
+            margin-left: 20px;
+        }
+
+        .cancel-button:hover {
+            background-color: #8B0000;
         }
 
         .logout-button {
             background-color: #0077cc;
             color: #fff;
+            margin-right: 20px;
+        }
+
+        .logout-button:hover {
+            background-color: #011627;
         }
     </style>
 </head>
