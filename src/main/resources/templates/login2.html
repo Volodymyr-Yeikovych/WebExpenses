@@ -24,7 +24,7 @@
         .login-box {
             background-color: black;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
@@ -40,7 +40,7 @@
             padding: 10px;
             margin-bottom: 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             background-color: #555;
             color: #fff;
             transition: background-color 0.3s ease;
@@ -51,6 +51,10 @@
             background-color: #ff6600;
             margin-top: 10px;
             cursor: pointer;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 10px;
             transition: background-color 0.3s ease;
         }
 
@@ -67,6 +71,21 @@
         .credentials-container {
             padding: 10px;
         }
+
+        .register-text {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6600;
+        }
+
+        .register-text:hover {
+            color: #0077cc;
+        }
+
+        a {
+            color: #ff6600;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -74,14 +93,12 @@
     <div class="login-box">
         <div class="credentials-container">
             <form class="login-form" th:action="@{/login}" method="POST">
-<!--                <form class="login-form" th:action="@{/login}" method="POST" th:object="${AppUser}">-->
                 <h2>Login</h2>
-<!--                <input type="text" name="email" placeholder="Email" required th:field="*{email}">-->
                 <input type="text" name="username" placeholder="Email" required>
-<!--                <input type="password" name="password" placeholder="Password" required th:field="*{password}">-->
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="submit" value="Login">
             </form>
+            <p class="register-text"><a th:href="@{/register}">Don't have an account?</a></p>
             <div class="msg-error" th:if="${param.error}">
                 Invalid username or password.
             </div>
