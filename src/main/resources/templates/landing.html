@@ -1,11 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Expenses Manager</title>
+    <meta charset="UTF-8">
+    <title>Expenses Manager</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ccc;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: #000;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .description {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 60px;
+            margin: 10px 10px;
+            background-color: #ff6600;
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 30px;
+        }
+
+        .btn:hover {
+            background-color: #8B0000;
+        }
+    </style>
 </head>
 <body>
-  <p> About the app: Some words...</p>
-  <p align="center"><a th:href="@{/expenses}">Manage my Expenses!!!</a></p>
+<div class="container">
+    <h1>Welcome to Expenses Manager</h1>
+    <p class="description">
+        Welcome to our personal expense management app, designed to revolutionize the way you track and manage your finances.
+        Create an account to ensure the protection of your data and enjoy seamless access from any device.
+        With customizable categories and shops, choose your preferred currency, input expenditures, and add detailed descriptions effortlessly.
+        Empower yourself to take control of your financial journey with our intuitive interface.
+        Start optimizing your expenses and achieving your financial goals today!</p>
+    <a th:href="@{/login}" class="btn">Login</a>
+    <a th:href="@{/register}" class="btn">Register</a>
+</div>
 </body>
 </html>
