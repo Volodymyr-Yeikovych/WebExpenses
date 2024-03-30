@@ -90,6 +90,13 @@
         .back-button a:hover {
             background-color: #011627;
         }
+
+        .msg-error {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +106,8 @@
     <p>Create custom category to later add it to new expense. E.g. Household, Electronics, Groceries, Clothing etc.</p>
     <form method="post" id="expenseForm" th:action="@{category}" th:object="${expenseCategory}">
         <label for="categoryName">Expense Category Name:</label>
-        <input type="text" id="categoryName" name="categoryName" placeholder="Enter Category Name" th:field="*{name}" required>
+        <input type="text" id="categoryName" name="categoryName" placeholder="Enter Category Name" th:field="*{name}"
+               required>
         <div class="button-group">
             <div class="create-button">
                 <input type="submit" value="Create Category">
@@ -108,6 +116,7 @@
                 <a th:href="@{/expenses}">Back</a>
             </div>
         </div>
+        <p class="msg-error" th:if="${catExists}" th:text="${catExists}">Validation error</p>
     </form>
 </div>
 
