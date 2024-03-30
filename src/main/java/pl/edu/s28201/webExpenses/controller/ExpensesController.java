@@ -15,6 +15,7 @@ import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
 import pl.edu.s28201.webExpenses.service.AppUserService;
 import pl.edu.s28201.webExpenses.service.ExpenseService;
 import pl.edu.s28201.webExpenses.service.SecurityService;
+import pl.edu.s28201.webExpenses.service.UuidService;
 
 import java.util.*;
 
@@ -27,14 +28,16 @@ public class ExpensesController {
     private final SecurityService securityService;
     private final ExpenseService expenseService;
     private final AppUserService userService;
+    private final UuidService uuidService;
 
     @Autowired
     public ExpensesController(ExpenseRepository expenseRepository,
-                              SecurityService securityService, ExpenseService expenseService, AppUserService userService) {
+                              SecurityService securityService, ExpenseService expenseService, AppUserService userService, UuidService uuidService) {
         this.expenseRepository = expenseRepository;
         this.securityService = securityService;
         this.expenseService = expenseService;
         this.userService = userService;
+        this.uuidService = uuidService;
     }
 
     @GetMapping
@@ -85,7 +88,7 @@ public class ExpensesController {
     public String returnExpensesPage(@RequestParam(value = "selectedExpenses", defaultValue = "") String selectedExpensesIds) {
         log.info("POST: Inside returnExpensesPage()");
         if (selectedExpensesIds != null && !selectedExpensesIds.isEmpty()) {
-            List<UUID> ids = expenseService.parseExpenseIds(selectedExpensesIds, ",");
+            List<UUID> ids = uuidService.parseExpenseIds(selectedExpensesIds, ",");
             log.info("Parsed Expenses IDs to Delete: " + ids.toString());
             expenseRepository.deleteAllById(ids);
         } else {
