@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.s28201.webExpenses.model.AppUser;
 import pl.edu.s28201.webExpenses.model.expense.ExpenseShop;
 import pl.edu.s28201.webExpenses.repository.ExpenseShopRepository;
 import pl.edu.s28201.webExpenses.service.SecurityService;
+
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -32,13 +35,27 @@ public class NewShopController {
 
     @PostMapping
     public String returnReadyShop(@ModelAttribute ExpenseShop shop,
-                                      @RequestParam("name") String name) {
+                                      @RequestParam("name") String name, Model model) {
         log.info("POST: Inside returnReadyShop()");
 
-        shop.setName(name);
-        shop.setUser(securityService.getUserFromSecurity());
+        AppUser user = securityService.getUserFromSecurity();
 
-        shopRepository.save(shop);
+        shop.setName(name);
+        shop.setUser(user);
+
+        Optional<ExpenseShop> shopOpt = shopRepository.findByNameIgnoreCaseAndUser(name, user);
+
+        if (shopOpt.isPresent()) {
+            ExpenseShop s = shopOpt.get();
+            if (s.isHidden()) {
+                shopRepository.showById(s.getId());
+            } else {
+                model.addAttribute("shopExists", "Shop with this name already exists");
+                return "newShop";
+            }
+        } else {
+            shopRepository.save(shop);
+        }
 
         return "redirect:/expenses";
     }
