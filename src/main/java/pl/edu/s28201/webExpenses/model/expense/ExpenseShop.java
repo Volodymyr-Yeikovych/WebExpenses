@@ -22,6 +22,7 @@ public class ExpenseShop {
     @ManyToOne(targetEntity = AppUser.class)
     private AppUser user;
     private String name;
+    private boolean isHidden;
 
     public ExpenseShop(String name, AppUser user) {
         this.user = user;
