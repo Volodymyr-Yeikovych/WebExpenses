@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.s28201.webExpenses.model.AppUser;
 import pl.edu.s28201.webExpenses.model.expense.ExpenseCategory;
 import pl.edu.s28201.webExpenses.repository.ExpenseCategoryRepository;
 import pl.edu.s28201.webExpenses.service.SecurityService;
+
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -33,13 +36,28 @@ public class NewCategoryController {
 
     @PostMapping
     public String returnReadyCategory(@ModelAttribute ExpenseCategory category,
-                                      @RequestParam("name") String name) {
+                                      @RequestParam("name") String name, Model model) {
         log.info("POST: Inside returnReadyCategory()");
 
-        category.setName(name);
-        category.setUser(securityService.getUserFromSecurity());
+        AppUser user = securityService.getUserFromSecurity();
 
-        categoryRepository.save(category);
+        category.setName(name);
+        category.setUser(user);
+
+        Optional<ExpenseCategory> catOpt = categoryRepository.findByNameIgnoreCaseAndUser(name, user);
+
+        if (catOpt.isPresent()) {
+            ExpenseCategory c = catOpt.get();
+            if (c.isHidden()) {
+                categoryRepository.showById(c.getId());
+            } else {
+                model.addAttribute("catExists", "Category with this name already exists");
+                return "newCategory";
+            }
+        } else {
+            categoryRepository.save(category);
+        }
+
 
         return "redirect:/expenses";
     }
