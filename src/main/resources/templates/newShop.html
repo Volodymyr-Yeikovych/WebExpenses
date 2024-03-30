@@ -90,6 +90,13 @@
         .back-button a:hover {
             background-color: #011627;
         }
+
+        .msg-error {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -108,6 +115,7 @@
                 <a th:href="@{/expenses}">Back</a>
             </div>
         </div>
+        <p class="msg-error" th:if="${shopExists}" th:text="${shopExists}">Validation error</p>
     </form>
 </div>
 
