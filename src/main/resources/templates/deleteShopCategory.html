@@ -21,25 +21,28 @@
         }
 
         .top-bar {
-            background-color: #333;
+            border-bottom: 2px solid #000;
             padding: 10px;
             text-align: center;
             margin-bottom: 20px;
+            justify-content: space-between;
         }
 
         .top-bar button {
-            background-color: orange;
+            background-color: #ff6600;
+            width: 48.5%;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 15px 0;
             cursor: pointer;
             font-size: 16px;
-            border-radius: 5px;
-            margin: 0 10px;
+            font-weight: bold;
+            border-radius: 30px;
+            margin-right: 1%;
         }
 
         .top-bar button:hover {
-            background-color: #ff8c00;
+            background-color: #8B0000;
         }
 
         .category,
@@ -74,15 +77,17 @@
             vertical-align: middle;
         }
 
-
+        .checkbox {
+            transform: scale(1.5);
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="top-bar">
         <form id="deleteForm" method="post" th:action="@{edit}">
-            <button>Delete Selected</button>
-            <button onclick="history.back()">Go Back</button>
+            <button type="submit">Delete Selected</button>
+            <button onclick="history.back()" type="button">Go Back</button>
             <input type="hidden" id="selectedCategories" name="selectedCategories"/>
             <input type="hidden" id="selectedShops" name="selectedShops"/>
         </form>
@@ -92,7 +97,7 @@
         <ul class="list">
             <li class="list-item" th:each="category : ${categories}">
                 <div class="item">
-                    <input class="checkboxes" type="checkbox" th:value="${category.id}" onclick="addCategories(this)"
+                    <input class="checkbox" type="checkbox" th:value="${category.id}" onclick="addCategories(this)"
                            name="categories">
                     <label th:text="${category.name}">sss</label>
                 </div>
@@ -104,7 +109,7 @@
         <ul class="list">
             <li class="list-item" th:each="shop : ${shops}">
                 <div class="item">
-                    <input class="checkboxes" type="checkbox" th:value="${shop.id}" onclick="addShops(this)"
+                    <input class="checkbox" type="checkbox" th:value="${shop.id}" onclick="addShops(this)"
                            name="shops">
                     <label th:text="${shop.name}">sss</label>
                 </div>
