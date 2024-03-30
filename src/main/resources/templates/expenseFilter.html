@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Filter</title>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      margin: 50px auto;
+      width: 80%;
+      max-width: 800px;
+    }
+
+    .filter-menu {
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #ff6600;
+    }
+
+    .filter-menu h2 {
+      color: #ff6600;
+      margin-bottom: 20px;
+    }
+
+    .filter-section {
+      margin-bottom: 20px;
+    }
+
+    .filter-section label {
+      display: block;
+      margin-bottom: 10px;
+      color: #bbb;
+    }
+
+    .checkbox-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-list li {
+      margin-bottom: 5px;
+      width: 50%;
+    }
+
+    .button-group {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .button-group button {
+      background-color: orange;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      margin: 0 10px;
+    }
+
+    .button-group button:hover {
+      background-color: #ff8c00;
+    }
+
+    section.range-slider {
+      position: relative;
+      width: 200px;
+      height: 35px;
+      text-align: center;
+    }
+
+    section.range-slider input {
+      pointer-events: none;
+      position: absolute;
+      overflow: hidden;
+      left: 0;
+      top: 15px;
+      width: 200px;
+      outline: none;
+      height: 18px;
+      margin: 0;
+      padding: 0;
+    }
+
+    section.range-slider input::-webkit-slider-thumb {
+      pointer-events: all;
+      position: relative;
+      z-index: 1;
+      outline: 0;
+    }
+
+    section.range-slider input::-moz-range-thumb {
+      pointer-events: all;
+      position: relative;
+      z-index: 10;
+      -moz-appearance: none;
+      width: 9px;
+    }
+
+    section.range-slider input::-moz-range-track {
+      position: relative;
+      z-index: -1;
+      background-color: rgba(0, 0, 0, 1);
+      border: 0;
+    }
+    section.range-slider input:last-of-type::-moz-range-track {
+      -moz-appearance: none;
+      background: none transparent;
+      border: 0;
+    }
+    section.range-slider input[type=range]::-moz-focus-outer {
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="filter-menu">
+    <h2>Expense Filter</h2>
+    <div class="filter-section">
+      <label for="dateFrom">Date From:</label>
+      <input type="date" id="dateFrom" name="dateFrom">
+    </div>
+    <div class="filter-section">
+      <label for="dateTill">Date Till:</label>
+      <input type="date" id="dateTill" name="dateTill">
+    </div>
+    <div class="filter-section">
+      <label for="expenseCategory">Expense Category:</label>
+      <ul class="checkbox-list">
+        <!-- Iterate over categories from Thymeleaf -->
+        <li>
+          <label><input type="checkbox" name="expenseCategory" value="Category1">Category 1</label>
+        </li>
+        <li>
+          <label><input type="checkbox" name="expenseCategory" value="Category2">Category 2</label>
+        </li>
+        <!-- Add more list items as needed -->
+      </ul>
+    </div>
+    <div class="filter-section">
+      <label for="expenseShop">Expense Shop:</label>
+      <ul class="checkbox-list">
+        <!-- Iterate over shops from Thymeleaf -->
+        <li>
+          <label><input type="checkbox" name="expenseShop" value="Shop1">Shop 1</label>
+        </li>
+        <li>
+          <label><input type="checkbox" name="expenseShop" value="Shop2">Shop 2</label>
+        </li>
+        <!-- Add more list items as needed -->
+      </ul>
+    </div>
+    <div class="filter-section">
+      <label for="priceRange">Price Range:</label>
+      <section class="range-slider">
+        <span class="rangeValues"></span>
+        <input value="5" min="0" max="15" step="0.5" type="range">
+        <input value="10" min="0" max="15" step="0.5" type="range">
+      </section>
+    </div>
+    <div class="button-group">
+      <button type="submit">Submit Filter</button>
+      <button onclick="history.back()">Go Back</button>
+    </div>
+  </div>
+</div>
+<script>
+  function getVals(){
+    // Get slider values
+    var parent = this.parentNode;
+    var slides = parent.getElementsByTagName("input");
+    var slide1 = parseFloat( slides[0].value );
+    var slide2 = parseFloat( slides[1].value );
+    // Neither slider will clip the other, so make sure we determine which is larger
+    if( slide1 > slide2 ){ var tmp = slide2; slide2 = slide1; slide1 = tmp; }
+
+    var displayElement = parent.getElementsByClassName("rangeValues")[0];
+    displayElement.innerHTML = slide1 + " - " + slide2;
+  }
+
+  window.onload = function(){
+    // Initialize Sliders
+    var sliderSections = document.getElementsByClassName("range-slider");
+    for( var x = 0; x < sliderSections.length; x++ ){
+      var sliders = sliderSections[x].getElementsByTagName("input");
+      for( var y = 0; y < sliders.length; y++ ){
+        if( sliders[y].type ==="range" ){
+          sliders[y].oninput = getVals;
+          // Manually trigger event first time to display values
+          sliders[y].oninput();
+        }
+      }
+    }
+  }
+</script>
+</body>
+</html>
