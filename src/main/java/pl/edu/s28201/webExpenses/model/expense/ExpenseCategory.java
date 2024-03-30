@@ -22,6 +22,7 @@ public class ExpenseCategory {
     @ManyToOne(targetEntity = AppUser.class)
     private AppUser user;
     private String name;
+    private boolean isHidden;
 
     public ExpenseCategory(String name, AppUser user) {
         this.user = user;
