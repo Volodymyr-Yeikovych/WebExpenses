@@ -60,10 +60,6 @@ public class ExpenseService {
         return asc;
     }
 
-    public List<UUID> parseExpenseIds(String string, String separator) {
-        return Arrays.stream(string.split(separator)).map(UUID::fromString).toList();
-    }
-
     public List<ExpenseDto> parseToExpenseDto(List<Expense> expenses) {
         List<ExpenseDto> dtos = new ArrayList<>();
         for (Expense e : expenses) {
