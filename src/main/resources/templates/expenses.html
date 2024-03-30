@@ -47,6 +47,7 @@
             margin: 0;
             padding: 0;
             cursor: pointer;
+            transform: scale(1.5);
         }
 
         .dot-separator {
@@ -333,8 +334,10 @@
                 <span class="tooltip-text">Click to add a new expense</span>
             </div>
             <div class="tooltip">
-                <button class="filter-button" type="button">Filter</button>
-                <span class="tooltip-text">Click to filter expenses</span>
+                <a th:href="@{/expenses/filter}">
+                    <button class="filter-button" type="button">Filter</button>
+                    <span class="tooltip-text">Click to filter expenses</span>
+                </a>
             </div>
             <form id="sort-form" method="post" th:action="@{/expenses/sorted}">
                 <div class="tooltip">
@@ -343,7 +346,7 @@
                 </div>
                 <div class="tooltip">
                     <select name="sortType">
-                        <option value="date_asc" th:selected="${sortType == 'date_asc'}">Latest First</option>
+                        <option value="date_asc" th:selected="${sortType == 'date_asc'}">Oldest First</option>
                         <option value="date_desc" th:selected="${sortType == 'date_desc'}">Newest First</option>
 
                         <option value="money_to_usd_asc" th:selected="${sortType == 'money_to_usd_asc'}">Low Price First
