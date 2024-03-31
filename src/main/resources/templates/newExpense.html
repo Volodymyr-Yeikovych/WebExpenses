@@ -157,6 +157,8 @@
            th:text="${dateErrorMsg}">Validation error</p>
         <p class="msg-error" th:if="${moneyErrorMsg}"
            th:text="${moneyErrorMsg}">Validation error</p>
+        <p class="msg-error" th:each="error : ${#fields.errors('description')}"
+           th:text="${error}">Validation error</p>
     </form>
 </div>
 </body>
