@@ -1,6 +1,7 @@
 package pl.edu.s28201.webExpenses.model.expense;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,6 +41,7 @@ public class Expense {
     private ExpenseCategory category;
     @ManyToOne(targetEntity = ExpenseShop.class)
     private ExpenseShop shop;
+    @Size(max = 254, message = "Description cannot be longer than 254 characters")
     private String description;
 
     public Expense(AppUser user, LocalDateTime timeMade, BigDecimal moneySpent, Currency currency, ExpenseCategory category, ExpenseShop shop, String description) {
