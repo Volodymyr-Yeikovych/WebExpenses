@@ -22,13 +22,16 @@ public class WebExpensesApplication {
     @Bean
     public CommandLineRunner demo(MockService mockService,
                                   AppUserRepository userRepository,
-                                  ExpenseRepository expenseRepository) {
+                                  ExpenseRepository expenseRepository,
+                                  ExpenseCategoryRepository categoryRepository) {
         return (args) -> {
             mockService.createMocksIfNeeded();
 
             printAllUsers(userRepository);
 
 //            printAllExpenses(expenseRepository);
+
+            printAllCatsWithName("Category_10", categoryRepository);
         };
     }
 
@@ -44,6 +47,14 @@ public class WebExpensesApplication {
         log.info("Expenses: ");
         log.info("<<<-------------------------------->>>");
         expenseRepository.findAll().forEach(expense -> log.info(expense.toString()));
+        log.info("<<<-------------------------------->>>");
+        log.info("");
+    }
+
+    private static void printAllCatsWithName(String name, ExpenseCategoryRepository categoryRepository) {
+        log.info("Cats: ");
+        log.info("<<<-------------------------------->>>");
+        categoryRepository.findAllByName(name).forEach(cat -> log.info(cat.toString()));
         log.info("<<<-------------------------------->>>");
         log.info("");
     }
