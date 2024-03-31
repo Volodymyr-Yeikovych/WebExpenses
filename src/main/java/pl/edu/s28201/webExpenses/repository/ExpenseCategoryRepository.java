@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 public interface ExpenseCategoryRepository extends CrudRepository<ExpenseCategory, UUID> {
 
     Optional<ExpenseCategory> findByName(String name);
+
+    List<ExpenseCategory> findAllByName(String name);
+
     Optional<ExpenseCategory> findByNameIgnoreCaseAndUser(String name, AppUser user);
 
     List<ExpenseCategory> findByUser(AppUser user);
