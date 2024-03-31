@@ -11,14 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class LandingController {
 
-    @Autowired
-    public LandingController() {
-
-    }
-
     @GetMapping
     public String displayLandingPage() {
-        log.info("Inside Method: displayLandingPage()");
+        log.info("GET: Inside displayLandingPage()");
+
         return "landing";
     }
 }
