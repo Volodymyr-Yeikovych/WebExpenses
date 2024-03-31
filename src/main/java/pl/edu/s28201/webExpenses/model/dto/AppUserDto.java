@@ -23,8 +23,10 @@ public class AppUserDto {
     private String email;
     @NotNull
     @NotEmpty
+    @Size(max = 254, message = "First name cannot be more than 254 characters")
     private String firstName;
     @NotNull
+    @Size(max = 254, message = "Last name cannot be more than 254 characters")
     private String lastName;
     @NotNull
     @NotEmpty
