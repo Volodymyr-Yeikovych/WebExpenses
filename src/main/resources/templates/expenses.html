@@ -131,7 +131,7 @@
             line-height: 45px;
         }
 
-        #plus-category:hover, #plus-shop:hover, .plus-button:hover, #delete-cat-shops:hover {
+        #plus-category:hover, #plus-shop:hover, .plus-button:hover, #delete-cat-shops:hover, #cancel-button:hover {
             background-color: #8B0000;
         }
 
@@ -207,8 +207,42 @@
             font-weight: bold;
         }
 
+        #cancel-button {
+            background-color: #ff6600;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            margin-right: 20px;
+            z-index: 1;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            padding-left: 17px;
+            padding-right: 17px;
+            line-height: 45px;
+            font-weight: bold;
+        }
+
         .plus-button[type="submit"]:hover {
             background-color: #ffae42;
+        }
+
+        .plus-button {
+            background-color: #ff6600;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            margin-right: 20px;
+            z-index: 1;
+            transition: background-color 0.3s ease;
+            font-size: 24px;
+            padding-left: 17px;
+            padding-right: 17px;
+            line-height: 45px;
+            font-weight: bold;
         }
 
         button:hover {
@@ -338,6 +372,12 @@
                     <button class="filter-button" type="button">Filter</button>
                     <span class="tooltip-text">Click to filter expenses</span>
                 </a>
+            </div>
+            <div class="tooltip">
+                <form method="post" th:action="@{/expenses/filter/cancel}" th:if="${filtered}">
+                    <button id="cancel-button" type="submit">🗙</button>
+                    <span class="tooltip-text">Click to cancel filter</span>
+                </form>
             </div>
             <form id="sort-form" method="post" th:action="@{/expenses/sorted}">
                 <div class="tooltip">
