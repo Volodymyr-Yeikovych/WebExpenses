@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 /dbSave/
+/h2/testdb.trace.db
