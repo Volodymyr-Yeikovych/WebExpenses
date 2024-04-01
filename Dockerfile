@@ -1,10 +1,11 @@
 # Build
-FROM maven:4.0.0-openjdk21 AS build
+FROM maven:3.9.6-amazoncorretto-21 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-LABEL authors="Volodymyr"
+COPY h2 ./h2
 RUN mvn clean install
+LABEL authors="Volodymyr"
 
 # Run
 FROM openjdk:21
