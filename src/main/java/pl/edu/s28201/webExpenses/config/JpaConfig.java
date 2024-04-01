@@ -24,8 +24,6 @@ public class JpaConfig {
         dataSource.setUsername("admin");
         dataSource.setPassword("admin");
         return dataSource;
-//        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-//        return builder.setType(EmbeddedDatabaseType.H2).build();
     }
 
     @Bean
@@ -40,6 +38,7 @@ public class JpaConfig {
 
         Properties jpaProperties = new Properties();
         jpaProperties.put("hibernate.hbm2ddl.auto", "validate");
+
         factory.setJpaProperties(jpaProperties);
 
         return factory;
