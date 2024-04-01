@@ -89,10 +89,10 @@ public class FilterController {
         model.addAttribute("sortType", defaultSortType);
         model.addAttribute("expenses", expenseService.parseToExpenseDto(defaultSortType));
 
-        log.info("Selected Cats IDs: [{}]", categories);
-        log.info("Selected Shops IDs: [{}]", shops);
+        log.info("Selected Cats IDs: [{}]", filterCats);
+        log.info("Selected Shops IDs: [{}]", filterShops);
 
-        return "expenses";
+        return "redirect:/expenses";
     }
 
     private LocalDateTime getTillDateOfString(String till) {
