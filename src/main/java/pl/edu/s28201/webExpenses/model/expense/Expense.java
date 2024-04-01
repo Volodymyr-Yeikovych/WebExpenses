@@ -23,7 +23,6 @@ import java.util.UUID;
 public class Expense {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
