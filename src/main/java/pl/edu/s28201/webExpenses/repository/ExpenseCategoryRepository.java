@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import pl.edu.s28201.webExpenses.model.AppUser;
 import pl.edu.s28201.webExpenses.model.expense.ExpenseCategory;
-import pl.edu.s28201.webExpenses.model.expense.ExpenseShop;
 
 import java.util.List;
 import java.util.Optional;
