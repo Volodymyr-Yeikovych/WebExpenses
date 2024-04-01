@@ -104,8 +104,10 @@ public class ExpenseService {
             StringBuilder deleteMsg = new StringBuilder("Parsed Expenses IDs to Delete: [");
             for (var id : ids) {
                 if (isValidExpenseId(id, securityService.getUserFromSecurity())) {
+                    Optional<Expense> exp = expenseRepository.findById(id);
                     expenseRepository.deleteById(id);
                     deleteMsg.append(id).append(",");
+                    exp.ifPresent(expense -> filterPool.remove(expense));
                 }
             }
             deleteMsg.append("]");
@@ -250,9 +252,7 @@ public class ExpenseService {
     }
 
     private boolean isAmountBetween(BigDecimal d, int min, int max) {
-        BigDecimal minD = BigDecimal.valueOf(min);
-        BigDecimal maxD = BigDecimal.valueOf(max);
-        return d.compareTo(minD) >= 0 && d.compareTo(maxD) <= 0;
+        return d.intValue() >= min && d.intValue() <= max;
     }
 
     private boolean isDateBetween(LocalDateTime dateTime, LocalDateTime from, LocalDateTime till) {
