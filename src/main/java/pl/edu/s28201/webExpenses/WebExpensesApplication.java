@@ -18,45 +18,4 @@ public class WebExpensesApplication {
     public static void main(String[] args) {
         SpringApplication.run(WebExpensesApplication.class, args);
     }
-
-    @Bean
-    public CommandLineRunner demo(MockService mockService,
-                                  AppUserRepository userRepository,
-                                  ExpenseRepository expenseRepository,
-                                  ExpenseCategoryRepository categoryRepository) {
-        return (args) -> {
-            mockService.createMocksIfNeeded();
-
-            printAllUsers(userRepository);
-
-//            printAllExpenses(expenseRepository);
-
-            printAllCatsWithName("Category_10", categoryRepository);
-        };
-    }
-
-    private static void printAllUsers(AppUserRepository userRepository) {
-        log.info("Users found with findAll():");
-        log.info("<<<------------------------------->>>");
-        userRepository.findAll().forEach(user -> log.info(user.toString()));
-        log.info("<<<-------------------------------->>>");
-        log.info("");
-    }
-
-    private static void printAllExpenses(ExpenseRepository expenseRepository) {
-        log.info("Expenses: ");
-        log.info("<<<-------------------------------->>>");
-        expenseRepository.findAll().forEach(expense -> log.info(expense.toString()));
-        log.info("<<<-------------------------------->>>");
-        log.info("");
-    }
-
-    private static void printAllCatsWithName(String name, ExpenseCategoryRepository categoryRepository) {
-        log.info("Cats: ");
-        log.info("<<<-------------------------------->>>");
-        categoryRepository.findAllByName(name).forEach(cat -> log.info(cat.toString()));
-        log.info("<<<-------------------------------->>>");
-        log.info("");
-    }
-
 }
