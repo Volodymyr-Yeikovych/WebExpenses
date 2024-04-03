@@ -8,7 +8,7 @@ spring:
     console:
       path: /h2
   profiles:
-    active: currency-static, ddl-create
+    active: currency-static, ddl-validate
 #  datasource:
 #    generate-unique-name: false
 #    name: "web-expenses-db"
