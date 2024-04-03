@@ -3,7 +3,7 @@ FROM maven:3.9.6-amazoncorretto-21 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-COPY h2 ./h2
+COPY src/main/resources/db/exps-db.mv.db ./src/main/resources/db/exps-db.mv.db
 RUN mvn clean install
 LABEL authors="Volodymyr"
 
