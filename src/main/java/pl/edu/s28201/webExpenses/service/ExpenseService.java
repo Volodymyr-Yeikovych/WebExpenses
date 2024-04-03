@@ -43,24 +43,6 @@ public class ExpenseService {
         this.securityService = securityService;
     }
 
-    public ExpenseSortType getSortTypeFromString(String strSort) {
-        return switch (strSort) {
-            case "date_asc" -> ExpenseSortType.DATE_ASC;
-            case "date_desc" -> ExpenseSortType.DATE_DESC;
-
-            case "money_to_usd_asc" -> ExpenseSortType.MONEY_TO_USD_ASC;
-            case "money_to_usd_desc" -> ExpenseSortType.MONEY_TO_USD_DESC;
-
-            case "category_asc" -> ExpenseSortType.CATEGORY_ABC_ASC;
-            case "category_desc" -> ExpenseSortType.CATEGORY_ABC_DESC;
-
-            case "shop_asc" -> ExpenseSortType.SHOP_ABC_ASC;
-            case "shop_desc" -> ExpenseSortType.SHOP_ABC_DESC;
-
-            default -> throw new SortTypeNotSupportedException("Passed sort type is not supported: " + strSort);
-        };
-    }
-
     public List<Expense> sortByMoneyAsc(List<Expense> expenses) {
         return expenses
                 .stream()
@@ -118,7 +100,7 @@ public class ExpenseService {
     }
 
     private List<Expense> sortAndRetrieveExpenses(String strSort) {
-        ExpenseSortType sortType = getSortTypeFromString(strSort);
+        ExpenseSortType sortType = ExpenseSortType.fromString(strSort);
 
         return getSortedExpenses(sortType);
     }
