@@ -26,6 +26,7 @@ public class FilterController {
     private final CategoryService categoryService;
     private final ShopService shopService;
     private final ExpenseService expenseService;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
     public FilterController(CategoryService categoryService, ShopService shopService, ExpenseService expenseService) {
@@ -97,7 +98,6 @@ public class FilterController {
     private LocalDateTime getTillDateOfString(String till) {
         if (till == null) return LocalDateTime.MIN;
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return LocalDate.parse(till, formatter).atStartOfDay();
         } catch (DateTimeParseException e) {
             return LocalDateTime.MIN;
@@ -107,7 +107,6 @@ public class FilterController {
     private LocalDateTime getFromDateOfString(String from) {
         if (from == null) return LocalDateTime.MAX;
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return LocalDate.parse(from, formatter).atStartOfDay();
         } catch (DateTimeParseException e) {
             return LocalDateTime.MAX;
