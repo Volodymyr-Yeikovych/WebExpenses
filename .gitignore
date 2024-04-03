@@ -33,3 +33,4 @@ build/
 .vscode/
 /dbSave/
 /h2/testdb.trace.db
+/BOOT-INF/classes/db/exps-db.mv.db.mv.db
