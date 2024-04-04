@@ -33,11 +33,12 @@ public class ExpensesController {
     @GetMapping
     public String displayExpensePage(Model model, HttpSession session) {
         log.info("GET: Inside displayExpensePage()");
-        Object objectType = session.getAttribute("sortType");
-        String sortType = "date_desc";
-        if (objectType != null) {
-            sortType = (String) objectType;
-        }
+        Object objectType = Optional
+                .ofNullable(session.getAttribute("sortType"))
+                .orElse("date_desc");
+
+        String sortType = objectType.toString();
+
         model.addAttribute("sortType", sortType);
 
         List<ExpenseDto> dtos = expenseService.parseToExpenseDto(sortType);
