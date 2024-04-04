@@ -26,7 +26,8 @@ public class FilterController {
     private final CategoryService categoryService;
     private final ShopService shopService;
     private final ExpenseService expenseService;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final String DEFAULT_SORT_TYPE = "date_desc";
 
     @Autowired
     public FilterController(CategoryService categoryService, ShopService shopService, ExpenseService expenseService) {
@@ -83,11 +84,10 @@ public class FilterController {
         List<ExpenseShop> filterShops = shopService.parseIdsToShops(shops);
 
         expenseService.filter(filterCats, filterShops, from, till, filter);
-        String defaultSortType = "date_desc";
 
         model.addAttribute("filtered", expenseService.isFiltered());
-        model.addAttribute("sortType", defaultSortType);
-        model.addAttribute("expenses", expenseService.parseToExpenseDto(defaultSortType));
+        model.addAttribute("sortType", DEFAULT_SORT_TYPE);
+        model.addAttribute("expenses", expenseService.parseToExpenseDto(DEFAULT_SORT_TYPE));
 
         log.info("Selected Cats IDs: [{}]", filterCats);
         log.info("Selected Shops IDs: [{}]", filterShops);
