@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import pl.edu.s28201.webExpenses.exception.SortTypeNotSupportedException;
 import pl.edu.s28201.webExpenses.model.AppUser;
 import pl.edu.s28201.webExpenses.model.dto.ExpenseDto;
 import pl.edu.s28201.webExpenses.model.dto.FilterDto;
