@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Manager</title>
+    <title>SpendWise</title>
     <style>
         body {
             margin: 0;
@@ -115,7 +115,7 @@
         }
 
         /*Buttons Styles*/
-        #plus-category, #plus-shop, #delete-cat-shops {
+        #plus-category, #plus-shop, #delete-cat-shops, #gen-chart {
             background-color: #ff6600;
             color: #fff;
             border: none;
@@ -131,7 +131,7 @@
             line-height: 45px;
         }
 
-        #plus-category:hover, #plus-shop:hover, .plus-button:hover, #delete-cat-shops:hover, #cancel-button:hover {
+        #plus-category:hover, #plus-shop:hover, .plus-button:hover, #delete-cat-shops:hover, #cancel-button:hover, #gen-chart:hover {
             background-color: #8B0000;
         }
 
@@ -421,6 +421,14 @@
                 <a th:href="@{/edit}">
                     <button id="delete-cat-shops" type="button">
                         Delete Category/Shop
+                    </button>
+                </a>
+                <span class="tooltip-text">Click to choose which shop/category to delete</span>
+            </div>
+            <div class="tooltip">
+                <a th:href="@{/chart}">
+                    <button id="gen-chart" type="button">
+                        Generate Bar Chart
                     </button>
                 </a>
                 <span class="tooltip-text">Click to choose which shop/category to delete</span>
