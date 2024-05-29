@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.s28201.webExpenses.exception.AppUserAlreadyExistsException;
 import pl.edu.s28201.webExpenses.model.AppUser;
-import pl.edu.s28201.webExpenses.model.dto.AppUserDto;
+import pl.edu.s28201.webExpenses.dto.AppUserDto;
 import pl.edu.s28201.webExpenses.repository.AppUserRepository;
 
 @Service
