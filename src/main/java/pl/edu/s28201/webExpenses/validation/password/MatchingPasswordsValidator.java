@@ -2,7 +2,7 @@ package pl.edu.s28201.webExpenses.validation.password;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import pl.edu.s28201.webExpenses.model.dto.AppUserDto;
+import pl.edu.s28201.webExpenses.dto.AppUserDto;
 
 public class MatchingPasswordsValidator implements ConstraintValidator<MatchingPasswords, Object> {
 
