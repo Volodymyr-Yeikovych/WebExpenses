@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Filter</title>
+    <title>SpendWise</title>
     <style>
         body {
             background-color: #1a1a1a;
@@ -198,12 +198,11 @@
 </div>
 <script>
     function getVals() {
-        // Get slider values
         var parent = this.parentNode;
         var slides = parent.getElementsByTagName("input");
         var slide1 = parseFloat(slides[0].value);
         var slide2 = parseFloat(slides[1].value);
-        // Neither slider will clip the other, so make sure we determine which is larger
+
         if (slide1 > slide2) {
             var tmp = slide2;
             slide2 = slide1;
@@ -222,7 +221,7 @@
             for (var y = 0; y < sliders.length; y++) {
                 if (sliders[y].type === "range") {
                     sliders[y].oninput = getVals;
-                    // Manually trigger event first time to display values
+
                     sliders[y].oninput();
                 }
             }
