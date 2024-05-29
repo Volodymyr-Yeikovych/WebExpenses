@@ -32,7 +32,9 @@ public class ChartService {
 
     private Object getChatLabels(LocalDate from, LocalDate to, int barCount) {
         long daysDiff = ChronoUnit.DAYS.between(from, to);
-        if (daysDiff < 12) throw new InvalidBarChartParameterException("Dates should have at least 12 days difference");
+        if (daysDiff < 12) throw new InvalidBarChartParameterException("Dates should have at least 12 days difference.");
+
+        if (barCount < 3 || barCount > 12) throw new InvalidBarChartParameterException("Number of Bar Chart Columns can't be less than 3 or more than 12.");
 
         BigDecimal decimalDiff = BigDecimal.valueOf(daysDiff);
         BigDecimal step = decimalDiff.divide(BigDecimal.valueOf(barCount), RoundingMode.DOWN);
