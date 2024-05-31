@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.edu.s28201.webExpenses.dto.ChartDto;
+import pl.edu.s28201.webExpenses.model.BarChartParameter;
 import pl.edu.s28201.webExpenses.service.ChartService;
 
 import java.math.BigDecimal;
@@ -31,9 +32,6 @@ public class ChartGenerationController {
             @ModelAttribute("data") List<BigDecimal> data,
             @ModelAttribute("labels") List<String> labels
             ) {
-//        var labels = Arrays.asList("Column 1", "Column 2", "Column 3", "Column 4", "Column 5", "Column 6", "Column 7", "Column $");
-//        var data = Arrays.asList(12, 19, 3, 5, 2, 3, 7, 36);
-
         model.addAttribute("labels", labels);
         model.addAttribute("data", data);
 
@@ -43,6 +41,7 @@ public class ChartGenerationController {
     @GetMapping
     public String displayChartParametersSelection(Model model) {
         model.addAttribute("dto", new ChartDto());
+        model.addAttribute("chartParams", BarChartParameter.values());
 
         return "generateChart";
     }
@@ -50,7 +49,11 @@ public class ChartGenerationController {
     @PostMapping
     public String returnChartParameters(Model model, @ModelAttribute ChartDto dto, RedirectAttributes ra) {
 
-        chartService.getChartDataFromParameters(dto);
+        var chartData = chartService.getChartDataFromParameters(dto);
+
+        ra.addFlashAttribute("name", chartData.getChartName());
+        ra.addFlashAttribute("labels", chartData.getLabels());
+        ra.addFlashAttribute("data", chartData.getDecimalValues());
 
         return "redirect:/chart/display";
     }
