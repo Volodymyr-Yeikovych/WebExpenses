@@ -11,6 +11,7 @@ public class LocalDateTimeValidator implements ConstraintValidator<DateTime, Loc
 
     @Override
     public boolean isValid(LocalDateTime value, ConstraintValidatorContext context) {
-        return value != null;
+        if (value == null) return false;
+        return value.isBefore(LocalDateTime.now()) || value.isEqual(LocalDateTime.now());
     }
 }
