@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 import pl.edu.s28201.webExpenses.model.AppUser;
 import pl.edu.s28201.webExpenses.model.expense.Expense;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +15,8 @@ public interface ExpenseRepository extends CrudRepository<Expense, UUID>, Paging
 
     @NonNull
     List<Expense> findAll();
+
+    List<Expense> findExpenseByUserAndTimeMadeBetween(AppUser user, LocalDateTime start, LocalDateTime end);
 
     List<Expense> findExpensesByUser(AppUser appUser);
 
