@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface DateTime {
 
-    String message() default "Invalid Date";
+    String message() default "Cannot set Date to null or value that is in the future.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
