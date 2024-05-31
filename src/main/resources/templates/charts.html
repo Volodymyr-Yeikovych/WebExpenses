@@ -33,20 +33,6 @@
             margin-left: 20%;
         }
 
-        /*#back-button {*/
-        /*    background: none;*/
-        /*    border: none;*/
-        /*    font-size: 5em;*/
-        /*    color: #ff6600;*/
-        /*    cursor: pointer;*/
-        /*    position: absolute;*/
-        /*    top: 10px;*/
-        /*    right: 10px;*/
-        /*}*/
-        /*#back-button:hover {*/
-        /*    color: #0077cc;*/
-        /*}*/
-
         .back-button {
             margin-left: 5px;
         }
@@ -91,10 +77,9 @@
     <canvas id="myBarChart"></canvas>
 </div>
 <script th:inline="javascript">
-    // Thymeleaf will inject the values here
     const labels = /*[[${labels}]]*/ [];
     const data = /*[[${data}]]*/ [];
-
+    const name = /*[[${name}]]*/ "Bar Chart";
     const backgroundColors = data.map((_, index) => {
         const colors = ['rgba(255, 165, 0, 0.6)', 'rgba(128, 128, 128, 0.6)', 'rgba(0, 0, 0, 0.6)'];
         return colors[index % colors.length];
@@ -111,7 +96,7 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Dataset 1',
+                label: name,
                 data: data,
                 backgroundColor: backgroundColors,
                 borderColor: borderColors,
@@ -147,10 +132,6 @@
             }
         }
     });
-
-    // function goBack() {
-    //     window.location.href = /*[[${backUrl}]]*/ '';
-    // }
 </script>
 </body>
 </html>
