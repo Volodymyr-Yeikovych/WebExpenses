@@ -85,6 +85,12 @@
         #parameter, #barCount {
             width: calc(100% + 20px);
         }
+
+        .msg-error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -99,6 +105,9 @@
             <div class="filter-section">
                 <label for="to">Date Till:</label>
                 <input type="date" id="to" name="to" th:field="*{to}">
+            </div>
+            <div class="msg-error" th:if="${invalidDateRange.length() > 0}" th:text="${invalidDateRange}">
+                Error message goes here.
             </div>
             <div class="filter-section">
                 <label for="parameter">Generate Based On:</label>
@@ -120,6 +129,9 @@
                     <option value="11">11</option>
                     <option value="12">12</option>
                 </select>
+            </div>
+            <div class="msg-error" th:if="${errors.size() > 0}" th:each="error : ${errors}" th:text="${error}">
+                Error message goes here.
             </div>
             <div class="button-group">
                 <button type="submit">Generate Chart</button>
