@@ -12,10 +12,6 @@ public enum BarChartParameter {
     MONEY_MAX("money_max", "Highest Money Spent USD"),
     MONEY_MIN("money_min", "Least Money Spent USD"),
     PURCHASES_NUM("purchases_num", "Number of Purchases");
-//    SHOP_MAX("shop_max", "Most Visited Shop"),
-//    SHOP_MIN("shop_min", "Least Visited Shop"),
-//    CAT_MAX("cat_max", "Most Frequently Purchased Category"),
-//    CAT_MIN("cat_min", "Least Frequently Purchased Category");
 
     private static final Map<String, BarChartParameter> BY_PARAMETER = new HashMap<>();
     private static final Map<String, BarChartParameter> BY_DESCRIPTION = new HashMap<>();
