@@ -34,9 +34,7 @@ public class ChartService {
         var barCount = dto.getBarCount();
         var parameter = dto.getParameter();
 
-        long daysDiff = Math.abs(ChronoUnit.DAYS.between(from, to.plusDays(1)));
-
-        log.info("Diff::{}", daysDiff);
+        long daysDiff = getDaysDifferenceBetween(from, to);
 
         if (daysDiff < barCount)
             throw new InvalidBarChartParameterException("Dates should have at least " + barCount + " days difference.");
@@ -160,5 +158,13 @@ public class ChartService {
 
     public LocalDate minDate(LocalDate date1, LocalDate date2) {
         return date1.isBefore(date2) ? date1 : date2;
+    }
+
+    public boolean isValidDate(LocalDate from, LocalDate to, int barCount) {
+        return getDaysDifferenceBetween(from, to) >= barCount;
+    }
+
+    public long getDaysDifferenceBetween(LocalDate date1, LocalDate date2) {
+        return Math.abs(ChronoUnit.DAYS.between(date1, date2.plusDays(1)));
     }
 }
