@@ -20,12 +20,12 @@ import java.util.List;
 @Slf4j
 public class ChartService {
 
-    private final DataService dataService;
+    private final ChartDataService chartDataService;
     private final static DateTimeFormatter DEFAULT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
     @Autowired
-    public ChartService(DataService dataService) {
-        this.dataService = dataService;
+    public ChartService(ChartDataService chartDataService) {
+        this.chartDataService = chartDataService;
     }
 
     public ChartData getChartDataFromParameters(ChartDto dto) {
@@ -84,10 +84,10 @@ public class ChartService {
 
     private String getDataRange(LocalDate start, LocalDate end, BarChartParameter parameter) {
         return switch (parameter) {
-            case MONEY_AVG -> dataService.getMoneySpentAvg(start, end);
-            case MONEY_MAX -> dataService.getMoneySpentMax(start, end);
-            case MONEY_MIN -> dataService.getMoneySpentMin(start, end);
-            case PURCHASES_NUM -> dataService.getPurchasesNum(start, end);
+            case MONEY_AVG -> chartDataService.getMoneySpentAvg(start, end);
+            case MONEY_MAX -> chartDataService.getMoneySpentMax(start, end);
+            case MONEY_MIN -> chartDataService.getMoneySpentMin(start, end);
+            case PURCHASES_NUM -> chartDataService.getPurchasesNum(start, end);
         };
     }
 
