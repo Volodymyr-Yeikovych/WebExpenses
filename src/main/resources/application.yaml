@@ -1,3 +1,8 @@
+server:
+  error:
+    path: /error
+    whitelabel:
+      enabled: false
 logging:
   level:
     root: info
@@ -8,7 +13,7 @@ spring:
     console:
       path: /h2
   profiles:
-    active: currency-static, ddl-validate
+    active: currency-nbp, ddl-validate
 #  datasource:
 #    generate-unique-name: false
 #    name: "web-expenses-db"
