@@ -1,11 +1,11 @@
-package pl.edu.s28201.webExpenses.service;
+package pl.edu.s28201.webExpenses.service.chart;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.s28201.webExpenses.dto.ChartDto;
 import pl.edu.s28201.webExpenses.exception.InvalidBarChartParameterException;
-import pl.edu.s28201.webExpenses.model.ChartData;
+import pl.edu.s28201.webExpenses.dto.ChartData;
 import pl.edu.s28201.webExpenses.model.BarChartParameter;
 
 import java.math.BigDecimal;
