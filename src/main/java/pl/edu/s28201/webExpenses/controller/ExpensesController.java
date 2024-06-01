@@ -22,17 +22,23 @@ public class ExpensesController {
     private final AppUserService userService;
 
     @Autowired
-    public ExpensesController(SecurityService securityService,
-                              ExpenseService expenseService,
-                              AppUserService userService) {
+    public ExpensesController(
+            SecurityService securityService,
+            ExpenseService expenseService,
+            AppUserService userService
+    ) {
         this.securityService = securityService;
         this.expenseService = expenseService;
         this.userService = userService;
     }
 
     @GetMapping
-    public String displayExpensePage(Model model, HttpSession session) {
-        log.info("GET: Inside displayExpensePage()");
+    public String displayExpensePage(
+            Model model,
+            HttpSession session
+    ) {
+        log.info("GET: /expenses");
+
         Object objectType = Optional
                 .ofNullable(session.getAttribute("sortType"))
                 .orElse("date_desc");
@@ -53,8 +59,10 @@ public class ExpensesController {
     }
 
     @PostMapping
-    public String returnExpensesPage(@RequestParam(value = "selectedExpenses", defaultValue = "") String selectedExpensesIds) {
-        log.info("POST: Inside returnExpensesPage()");
+    public String returnExpensesPage(
+            @RequestParam(value = "selectedExpenses", defaultValue = "") String selectedExpensesIds
+    ) {
+        log.info("POST: /expenses");
 
         expenseService.deleteAllById(selectedExpensesIds);
 
