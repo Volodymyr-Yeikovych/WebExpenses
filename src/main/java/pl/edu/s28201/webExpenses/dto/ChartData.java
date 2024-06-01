@@ -1,4 +1,4 @@
-package pl.edu.s28201.webExpenses.model;
+package pl.edu.s28201.webExpenses.dto;
 
 import lombok.Builder;
 import lombok.Data;
