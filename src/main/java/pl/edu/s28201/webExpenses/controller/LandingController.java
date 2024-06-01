@@ -12,7 +12,7 @@ public class LandingController {
 
     @GetMapping
     public String displayLandingPage() {
-        log.info("GET: Inside displayLandingPage()");
+        log.info("GET: / or /landing");
 
         return "landing";
     }
