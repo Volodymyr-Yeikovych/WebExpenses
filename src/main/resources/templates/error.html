@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendWise</title>
+    <style>
+        body {
+            background-color: #1c1c1c;
+            color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        h1 {
+            color: #ff6600;
+            font-size: 3em;
+        }
+        p {
+            color: #f0f0f0;
+            font-size: 1.2em;
+        }
+        a {
+            color: #ff6600;
+            text-decoration: none;
+            border: 1px solid #ff6600;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        a:hover {
+            background-color: #ff6600;
+            color: #1c1c1c;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Sorry, Something Went Wrong</h2>
+    <p th:text="${errorMessage}">An unexpected error occurred.</p>
+    <a th:href="@{/expenses}">Go to Expenses</a>
+</div>
+</body>
+</html>
