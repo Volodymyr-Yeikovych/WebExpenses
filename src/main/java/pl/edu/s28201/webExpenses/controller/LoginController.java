@@ -13,7 +13,7 @@ public class LoginController {
 
     @GetMapping
     public String displayLoginPage() {
-        log.info("GET: Inside displayLoginPage()");
+        log.info("GET: /login");
         return "login2";
     }
 
