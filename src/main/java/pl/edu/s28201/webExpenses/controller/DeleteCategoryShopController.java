@@ -26,7 +26,7 @@ public class DeleteCategoryShopController {
 
     @GetMapping
     public String displayDeleteCategoryShopPage(Model model) {
-        log.info("GET: Inside displayDeleteCategoryShopPage()");
+        log.info("GET: /edit");
 
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("shops", shopService.findAll());
@@ -35,9 +35,11 @@ public class DeleteCategoryShopController {
     }
 
     @PostMapping
-    public String returnExpensesPage(@RequestParam(value = "selectedCategories", defaultValue = "") String categories,
-                                     @RequestParam(value = "selectedShops", defaultValue = "") String shops) {
-        log.info("POST: Inside returnExpensesPage()");
+    public String returnExpensesPage(
+            @RequestParam(value = "selectedCategories", defaultValue = "") String categories,
+            @RequestParam(value = "selectedShops", defaultValue = "") String shops
+    ) {
+        log.info("POST: /edit");
 
         categoryService.hideAllById(categories);
         shopService.hideAllById(shops);
