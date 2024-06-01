@@ -13,9 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ExpensesSortController {
 
     @PostMapping
-    public String returnSortedExpenses(@RequestParam("sortType") String sortType, HttpSession session) {
-        log.info("POST: Inside returnSortedExpenses()");
+    public String returnSortedExpenses(
+            @RequestParam("sortType") String sortType,
+            HttpSession session
+    ) {
+        log.info("POST: /expenses/sorted");
+
         log.info("Sort type selected: {}", sortType);
+
         session.setAttribute("sortType", sortType);
         return "redirect:/expenses";
     }
