@@ -1,4 +1,4 @@
-package pl.edu.s28201.webExpenses.service;
+package pl.edu.s28201.webExpenses.service.fake;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
