@@ -11,8 +11,8 @@ import pl.edu.s28201.webExpenses.model.expense.Expense;
 import pl.edu.s28201.webExpenses.model.expense.ExpenseCategory;
 import pl.edu.s28201.webExpenses.model.expense.ExpenseShop;
 import pl.edu.s28201.webExpenses.model.expense.ExpenseSortType;
-import pl.edu.s28201.webExpenses.repository.CurrencyRepository;
 import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
+import pl.edu.s28201.webExpenses.service.currency.CurrencyService;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class ExpenseService {
 
-    private final CurrencyRepository currencyRepository;
+    private final CurrencyService currencyService;
     private final ExpenseRepository expenseRepository;
     private final UuidService uuidService;
     private final SecurityService securityService;
@@ -35,8 +35,13 @@ public class ExpenseService {
     private boolean isFiltered = false;
 
     @Autowired
-    public ExpenseService(CurrencyRepository currencyRepository, ExpenseRepository expenseRepository, UuidService uuidService, SecurityService securityService) {
-        this.currencyRepository = currencyRepository;
+    public ExpenseService(
+            CurrencyService currencyService,
+            ExpenseRepository expenseRepository,
+            UuidService uuidService,
+            SecurityService securityService
+    ) {
+        this.currencyService = currencyService;
         this.expenseRepository = expenseRepository;
         this.uuidService = uuidService;
         this.securityService = securityService;
@@ -45,11 +50,9 @@ public class ExpenseService {
     public List<Expense> sortByMoneyAsc(List<Expense> expenses) {
         return expenses
                 .stream()
-                .sorted(
-                        Comparator.comparing(expense -> expense
+                .sorted(Comparator.comparing(expense -> expense
                                 .getMoneySpent()
-                                .multiply(BigDecimal.valueOf(currencyRepository
-                                        .getCurrencyToUsdRate(expense.getCurrency())))))
+                                .multiply(currencyService.getCurrencyToUsdRate(expense.getCurrency()))))
                 .toList();
     }
 
@@ -171,22 +174,29 @@ public class ExpenseService {
     }
 
     public BigDecimal getMinPrice() {
+        setUnFiltered();
         var listE = getSortedExpenses(ExpenseSortType.MONEY_TO_USD_ASC);
-        if (listE.isEmpty()) return BigDecimal.valueOf(100);
+        setFiltered();
+        if (listE.isEmpty()) return BigDecimal.valueOf(0);
 
         Expense e = listE.getFirst();
-        if (e == null) return BigDecimal.valueOf(100);
-        return e.getMoneySpent();
+        if (e == null) return BigDecimal.valueOf(0);
+        return e.getMoneySpent().multiply(currencyService
+                .getCurrencyToUsdRate(e.getCurrency()));
     }
 
     public BigDecimal getMaxPrice() {
+        setUnFiltered();
         var listE = getSortedExpenses(ExpenseSortType.MONEY_TO_USD_ASC);
-        if (listE.isEmpty()) return BigDecimal.valueOf(0);
+        setFiltered();
+        if (listE.isEmpty()) return BigDecimal.valueOf(100);
 
         Expense e = listE.getLast();
-        if (e == null) return BigDecimal.valueOf(0);
+        if (e == null) return BigDecimal.valueOf(100);
 
-        return e.getMoneySpent();
+        return e.getMoneySpent()
+                .multiply(currencyService
+                        .getCurrencyToUsdRate(e.getCurrency()));
     }
 
     public LocalDateTime getMinDate() {
@@ -227,7 +237,11 @@ public class ExpenseService {
 
         result = result
                 .filter(expense -> isDateBetween(expense.getTimeMade(), from, till))
-                .filter(expense -> isAmountBetween(expense.getMoneySpent(), min, max));
+                .filter(expense -> isAmountBetween(expense
+                        .getMoneySpent()
+                        .multiply(currencyService.getCurrencyToUsdRate(expense.getCurrency())),
+                        min, max
+                ));
 
         filterPool = result.collect(Collectors.toList());
     }
