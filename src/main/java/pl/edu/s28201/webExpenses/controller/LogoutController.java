@@ -12,7 +12,7 @@ public class LogoutController {
 
     @GetMapping
     public String displayLogoutPage() {
-        log.info("GET: Inside displayLogoutPage()");
+        log.info("GET: /logout");
         return "logout";
     }
 }
