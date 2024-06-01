@@ -156,22 +156,21 @@
                 <label for="dateTill">Date Till:</label>
                 <input type="date" id="dateTill" name="dateTill" th:field="*{till}">
             </div>
-            <input type="hidden" id="selectedCategories" name="selectedCategories"/>
             <div class="filter-section">
                 <label for="categories">Expense Category:</label>
                 <ul class="checkbox-list" id="categories">
                     <li class="checkbox-list-items" th:each="category : ${categories}">
-                        <input class="checkbox" type="checkbox" th:value="${category.id}" onclick="addCategories(this)"
-                               name="categories">
+                        <input class="checkbox" type="checkbox" th:value="${category.id}"
+                               th:field="*{selectedCats}" name="categories">
                         <label class="checkbox-item" th:text="${category.name}">Sample Name</label>
+                    </li>
                 </ul>
             </div>
-            <input type="hidden" id="selectedShops" name="selectedShops"/>
             <div class="filter-section">
                 <label for="shops">Expense Shop:</label>
                 <ul class="checkbox-list" id="shops">
                     <li class="checkbox-list-items" th:each="shop : ${shops}">
-                        <input class="checkbox" type="checkbox" th:value="${shop.id}" onclick="addShops(this)"
+                        <input class="checkbox" type="checkbox" th:value="${shop.id}" th:field="*{selectedShops}"
                                name="shops">
                         <label class="checkbox-item" th:text="${shop.name}">Sample Name</label>
                     </li>
@@ -214,7 +213,6 @@
     }
 
     window.onload = function () {
-        // Initialize Sliders
         var sliderSections = document.getElementsByClassName("range-slider");
         for (var x = 0; x < sliderSections.length; x++) {
             var sliders = sliderSections[x].getElementsByTagName("input");
@@ -226,24 +224,6 @@
                 }
             }
         }
-    }
-
-    function addShops(checkbox) {
-        var selectedExpenses = document.querySelectorAll('input[name="shops"]:checked');
-        var selectedExpensesIds = [];
-        selectedExpenses.forEach(function (checkbox) {
-            selectedExpensesIds.push(checkbox.value);
-        });
-        document.getElementById("selectedShops").value = selectedExpensesIds.join(',');
-    }
-
-    function addCategories(checkbox) {
-        var selectedExpenses = document.querySelectorAll('input[name="categories"]:checked');
-        var selectedExpensesIds = [];
-        selectedExpenses.forEach(function (checkbox) {
-            selectedExpensesIds.push(checkbox.value);
-        });
-        document.getElementById("selectedCategories").value = selectedExpensesIds.join(',');
     }
 </script>
 </body>
