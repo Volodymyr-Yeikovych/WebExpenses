@@ -28,22 +28,23 @@ public class NewShopController {
 
     @GetMapping
     public String displayNewShop(Model model) {
-        log.info("GET: Inside displayNewShop()");
+        log.info("GET: /shop");
         model.addAttribute("expenseShop", new ExpenseShop());
         return "newShop";
     }
 
     @PostMapping
-    public String returnReadyShop(@ModelAttribute ExpenseShop shop,
-                                      @RequestParam("name") String name, Model model) {
-        log.info("POST: Inside returnReadyShop()");
+    public String returnReadyShop(
+            @ModelAttribute ExpenseShop shop,
+            Model model
+    ) {
+        log.info("POST: /shop");
 
         AppUser user = securityService.getUserFromSecurity();
 
-        shop.setName(name);
         shop.setUser(user);
 
-        Optional<ExpenseShop> shopOpt = shopRepository.findByNameIgnoreCaseAndUser(name, user);
+        Optional<ExpenseShop> shopOpt = shopRepository.findByNameIgnoreCaseAndUser(shop.getName(), user);
 
         if (shopOpt.isPresent()) {
             ExpenseShop s = shopOpt.get();
