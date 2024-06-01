@@ -1,10 +1,11 @@
-package pl.edu.s28201.webExpenses.service;
+package pl.edu.s28201.webExpenses.service.chart;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.s28201.webExpenses.repository.CurrencyRepository;
 import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
+import pl.edu.s28201.webExpenses.service.SecurityService;
+import pl.edu.s28201.webExpenses.service.currency.CurrencyService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -20,13 +21,13 @@ public class ChartDataService {
 
     private final ExpenseRepository expenseRepository;
     private final SecurityService securityService;
-    private final CurrencyRepository currencyRepository;
+    private final CurrencyService currencyService;
 
     @Autowired
-    public ChartDataService(ExpenseRepository expenseRepository, SecurityService securityService, CurrencyRepository currencyRepository) {
+    public ChartDataService(ExpenseRepository expenseRepository, SecurityService securityService, CurrencyService currencyService) {
         this.expenseRepository = expenseRepository;
         this.securityService = securityService;
-        this.currencyRepository = currencyRepository;
+        this.currencyService = currencyService;
     }
 
     public String getMoneySpentAvg(LocalDate start, LocalDate end) {
@@ -35,9 +36,7 @@ public class ChartDataService {
                 .stream()
                 .map(expense -> expense
                         .getMoneySpent()
-                        .multiply(BigDecimal
-                                .valueOf(currencyRepository
-                                        .getCurrencyToUsdRate(expense.getCurrency()))))
+                        .multiply(currencyService.getCurrencyToUsdRate(expense.getCurrency())))
                 .toList();
 
         if (decimals.isEmpty()) return "0";
@@ -59,9 +58,7 @@ public class ChartDataService {
                 .stream()
                 .map(expense -> expense
                         .getMoneySpent()
-                        .multiply(BigDecimal
-                                .valueOf(currencyRepository
-                                        .getCurrencyToUsdRate(expense.getCurrency()))))
+                        .multiply(currencyService.getCurrencyToUsdRate(expense.getCurrency())))
                 .max(BigDecimal::compareTo);
 
         if (max.isEmpty()) return "0";
@@ -75,9 +72,7 @@ public class ChartDataService {
                 .stream()
                 .map(expense -> expense
                         .getMoneySpent()
-                        .multiply(BigDecimal
-                                .valueOf(currencyRepository
-                                        .getCurrencyToUsdRate(expense.getCurrency()))))
+                        .multiply(currencyService.getCurrencyToUsdRate(expense.getCurrency())))
                 .min(BigDecimal::compareTo);
 
         if (min.isEmpty()) return "0";
