@@ -34,15 +34,19 @@ public class RegisterController {
 
     @GetMapping
     public String displayRegisterPage(Model model) {
-        log.info("GET: Inside displayRegisterPage()");
+        log.info("GET: /register");
         model.addAttribute("user", new AppUserDto());
         return "register";
     }
 
     @PostMapping
-    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid AppUserDto userDto, Errors errors,
-                                            HttpServletRequest request, ModelAndView mav) {
-        log.info("POST: Inside registerUserAccount()");
+    public ModelAndView registerUserAccount(
+            @ModelAttribute("user") @Valid AppUserDto userDto,
+            Errors errors,
+            HttpServletRequest request,
+            ModelAndView mav
+    ) {
+        log.info("POST: /register");
 
         if (errors.hasErrors()) {
             log.info("Errors: {}", errors.getAllErrors());
