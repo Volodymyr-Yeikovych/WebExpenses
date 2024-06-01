@@ -21,7 +21,10 @@ public class NewCategoryController {
     private final ExpenseCategoryRepository categoryRepository;
 
     @Autowired
-    public NewCategoryController(SecurityService securityService, ExpenseCategoryRepository categoryRepository) {
+    public NewCategoryController(
+            SecurityService securityService,
+            ExpenseCategoryRepository categoryRepository
+    ) {
         this.securityService = securityService;
         this.categoryRepository = categoryRepository;
     }
@@ -29,22 +32,23 @@ public class NewCategoryController {
 
     @GetMapping
     public String displayNewCategory(Model model) {
-        log.info("GET: Inside displayNewCategory()");
+        log.info("GET: /category");
         model.addAttribute("expenseCategory", new ExpenseCategory());
         return "newCategory";
     }
 
     @PostMapping
-    public String returnReadyCategory(@ModelAttribute ExpenseCategory category,
-                                      @RequestParam("name") String name, Model model) {
-        log.info("POST: Inside returnReadyCategory()");
+    public String returnReadyCategory(
+            @ModelAttribute ExpenseCategory category,
+            Model model
+    ) {
+        log.info("POST: /category");
 
         AppUser user = securityService.getUserFromSecurity();
 
-        category.setName(name);
         category.setUser(user);
 
-        Optional<ExpenseCategory> catOpt = categoryRepository.findByNameIgnoreCaseAndUser(name, user);
+        Optional<ExpenseCategory> catOpt = categoryRepository.findByNameIgnoreCaseAndUser(category.getName(), user);
 
         if (catOpt.isPresent()) {
             ExpenseCategory c = catOpt.get();
@@ -57,7 +61,6 @@ public class NewCategoryController {
         } else {
             categoryRepository.save(category);
         }
-
 
         return "redirect:/expenses";
     }
