@@ -9,17 +9,11 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.s28201.webExpenses.model.AppUser;
 import pl.edu.s28201.webExpenses.model.expense.Expense;
-import pl.edu.s28201.webExpenses.model.expense.ExpenseCategory;
-import pl.edu.s28201.webExpenses.model.expense.ExpenseShop;
-import pl.edu.s28201.webExpenses.repository.CurrencyRepository;
+import pl.edu.s28201.webExpenses.service.currency.CurrencyService;
 import pl.edu.s28201.webExpenses.repository.ExpenseCategoryRepository;
 import pl.edu.s28201.webExpenses.repository.ExpenseRepository;
 import pl.edu.s28201.webExpenses.repository.ExpenseShopRepository;
 import pl.edu.s28201.webExpenses.service.SecurityService;
-
-import java.math.BigDecimal;
-import java.util.Currency;
-import java.util.Optional;
 
 @RequestMapping("/expenses/new")
 @Controller
@@ -29,22 +23,28 @@ public class NewExpenseController {
     private final ExpenseRepository expenseRepository;
     private final ExpenseCategoryRepository categoryRepository;
     private final ExpenseShopRepository shopRepository;
-    private final CurrencyRepository currencyRepository;
+    private final CurrencyService currencyService;
 
     private final SecurityService securityService;
 
     @Autowired
-    public NewExpenseController(ExpenseRepository expenseRepository, ExpenseCategoryRepository categoryRepository, ExpenseShopRepository shopRepository, CurrencyRepository currencyRepository, SecurityService securityService) {
+    public NewExpenseController(
+            ExpenseRepository expenseRepository,
+            ExpenseCategoryRepository categoryRepository,
+            ExpenseShopRepository shopRepository,
+            CurrencyService currencyService,
+            SecurityService securityService
+    ) {
         this.expenseRepository = expenseRepository;
         this.categoryRepository = categoryRepository;
         this.shopRepository = shopRepository;
-        this.currencyRepository = currencyRepository;
+        this.currencyService = currencyService;
         this.securityService = securityService;
     }
 
     @GetMapping
     public String displayNewExpensePage(Model model) {
-        log.info("GET: Inside displayNewExpensePage()");
+        log.info("GET: /expenses/new");
 
         model.addAttribute("expense", new Expense());
         fillModel(model);
@@ -56,26 +56,22 @@ public class NewExpenseController {
         AppUser currentUser = securityService.getUserFromSecurity();
         model.addAttribute("categories", categoryRepository.findAllByUserAndNotHidden(currentUser));
         model.addAttribute("shops", shopRepository.findAllByUserAndNotHidden(currentUser));
-        model.addAttribute("currencies", currencyRepository.findAllCurrenciesCodeToNameMap());
+        model.addAttribute("currencies", currencyService.findAllCurrenciesCodeToNameMap());
     }
 
     @PostMapping
-    public String returnReadyExpense(@ModelAttribute @Valid Expense expense,
-                                     Errors errors,
-                                     @RequestParam("moneySpent") String moneySpent,
-                                     @RequestParam("currency") String currency,
-                                     @RequestParam("category") String categoryName,
-                                     @RequestParam("shop") String shopName,
-                                     @RequestParam(value = "description", required = false) String description,
-                                     Model model) {
-        log.info("POST: Inside returnReadyExpense()");
+    public String returnReadyExpense(
+            @ModelAttribute @Valid Expense expense,
+            Errors errors,
+            Model model
+    ) {
+        log.info("POST: /expenses/new");
 
         if (errors.hasErrors()) {
-            log.info("Errors: {}", errors.getAllErrors());
             fillModel(model);
 
             if (errors.hasFieldErrors("timeMade")) {
-                model.addAttribute("dateErrorMsg", "Invalid Date");
+                model.addAttribute("dateErrorMsg", "Date can't be empty or in the future.");
             }
 
             if (errors.hasFieldErrors("moneySpent")) {
@@ -85,17 +81,12 @@ public class NewExpenseController {
             return "newExpense";
         }
 
-        Optional<ExpenseCategory> category = categoryRepository.findByName(categoryName);
-        Optional<ExpenseShop> shops = shopRepository.findByName(shopName);
-        BigDecimal parsedMoneySpent = new BigDecimal(moneySpent);
-        Currency parsedCurrency = Currency.getInstance(currency);
-
         expense.setUser(securityService.getUserFromSecurity());
-        expense.setMoneySpent(parsedMoneySpent);
-        expense.setCurrency(parsedCurrency);
-        category.ifPresent(expense::setCategory);
-        shops.ifPresent(expense::setShop);
-        expense.setDescription(description);
+        expense.setMoneySpent(expense.getMoneySpent());
+        expense.setCurrency(expense.getCurrency());
+        expense.setShop(expense.getShop());
+        expense.setCategory(expense.getCategory());
+        expense.setDescription(expense.getDescription());
 
         expenseRepository.save(expense);
 
