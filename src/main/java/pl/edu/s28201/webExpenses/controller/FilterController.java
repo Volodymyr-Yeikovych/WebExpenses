@@ -28,9 +28,14 @@ public class FilterController {
     private final ExpenseService expenseService;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final String DEFAULT_SORT_TYPE = "date_desc";
+    private static final int SLIDER_STEPS_NUM = 1000;
 
     @Autowired
-    public FilterController(CategoryService categoryService, ShopService shopService, ExpenseService expenseService) {
+    public FilterController(
+            CategoryService categoryService,
+            ShopService shopService,
+            ExpenseService expenseService
+    ) {
         this.categoryService = categoryService;
         this.shopService = shopService;
         this.expenseService = expenseService;
@@ -44,18 +49,16 @@ public class FilterController {
 
     @GetMapping
     public String displayFilterPage(Model model) {
-        log.info("GET: Inside displayFilterPage()");
+        log.info("GET: /expenses/filter");
 
         int max = expenseService.getMaxPrice().intValue();
         int min = expenseService.getMinPrice().intValue();
-        int step = (max - min) / 1000;
+        int step = (max - min) / SLIDER_STEPS_NUM;
 
         FilterDto dto = FilterDto.builder()
                 .minPrice(min)
                 .maxPrice(max)
                 .build();
-
-        log.info("Filter: {}", dto);
 
         model.addAttribute("filter", dto);
         fillModel(model, step);
@@ -64,33 +67,25 @@ public class FilterController {
     }
 
     @PostMapping
-    public String returnFilteredExpensePage(@ModelAttribute("filter") FilterDto filter,
-                                            @RequestParam(value = "selectedCategories", defaultValue = "") String categories,
-                                            @RequestParam(value = "selectedShops", defaultValue = "") String shops,
-                                            Model model) {
-        log.info("POST: Inside returnFilteredExpensePage()");
+    public String returnFilteredExpensePage(
+            @ModelAttribute("filter") FilterDto filter,
+            Model model
+    ) {
+        log.info("POST: /expenses/filter");
 
         LocalDateTime from = getFromDateOfString(filter.getFrom());
         LocalDateTime till = getTillDateOfString(filter.getTill());
 
-        log.info("From date: {}", from);
-        log.info("Till date: {}", till);
-
-        log.info("Got filter: {}", filter);
-
         expenseService.setFiltered();
 
-        List<ExpenseCategory> filterCats = categoryService.parseIdsToCategories(categories);
-        List<ExpenseShop> filterShops = shopService.parseIdsToShops(shops);
+        List<ExpenseCategory> filterCats = filter.getSelectedCats();
+        List<ExpenseShop> filterShops = filter.getSelectedShops();
 
         expenseService.filter(filterCats, filterShops, from, till, filter);
 
         model.addAttribute("filtered", expenseService.isFiltered());
         model.addAttribute("sortType", DEFAULT_SORT_TYPE);
         model.addAttribute("expenses", expenseService.parseToExpenseDto(DEFAULT_SORT_TYPE));
-
-        log.info("Selected Cats IDs: [{}]", filterCats);
-        log.info("Selected Shops IDs: [{}]", filterShops);
 
         return "redirect:/expenses";
     }
@@ -115,7 +110,7 @@ public class FilterController {
 
     @PostMapping("/cancel")
     public String returnUnFilteredExpensesPage() {
-        log.info("POST: Inside returnUnFilteredExpensesPage()");
+        log.info("POST: /cancel");
 
         expenseService.setUnFiltered();
 
