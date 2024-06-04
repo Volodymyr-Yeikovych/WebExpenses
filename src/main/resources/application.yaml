@@ -13,7 +13,7 @@ spring:
     console:
       path: /h2
   profiles:
-    active: currency-nbp, ddl-validate
+    active: currency-nbp, ddl-update
 #  datasource:
 #    generate-unique-name: false
 #    name: "web-expenses-db"
