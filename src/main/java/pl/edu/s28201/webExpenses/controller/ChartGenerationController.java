@@ -68,17 +68,16 @@ public class ChartGenerationController {
             RedirectAttributes ra
     ) {
         log.info("POST: /chart");
+
+        if (errors.hasErrors()) {
+            ra.addFlashAttribute("errors", errors.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList());
+            return "redirect:/chart";
+        }
+
         boolean invalidDate = !chartService.isValidDate(dto.getFrom(), dto.getTo(), dto.getBarCount());
 
         if (invalidDate) {
             ra.addFlashAttribute("invalidDateRange", "Days range should be more or equal to number of bar chart columns.");
-        }
-
-        if (errors.hasErrors()) {
-            ra.addFlashAttribute("errors", errors.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList());
-        }
-
-        if (invalidDate || errors.hasErrors()) {
             return "redirect:/chart";
         }
 
