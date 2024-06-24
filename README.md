@@ -1,4 +1,4 @@
 # A personal Expense Manager. 
 
-## Add/Delete/Sort/Filter your expenses.
+## Spring Boot Project for PJATK, TPO Subject
 
